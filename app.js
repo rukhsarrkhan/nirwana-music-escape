@@ -8,39 +8,22 @@ const exphbs = require('express-handlebars');
 const {protect} = require('./middleware/authJwt')
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
-app.use(
-	session({
-		name: 'AuthCookie',
-		saveUninitialized: true,
-		secret: "some secret string!",
-		resave: false,
-		cookie: { maxAge: 600000 },
-	})
-);
 
-app.use(async (req, res, next) => {
-	if (req.session.user) {
-		console.log(
-			`${new Date().toUTCString()} ${req.method} ${
-				req.originalUrl
-			} (Authenticated User)`
-		);
-	} else {
-		console.log(
-			`${new Date().toUTCString()} ${req.method} ${
-				req.originalUrl
-			} (Non-Authenticated User)`
-		);
-	}
-	next();
-});
 
-// app.use('/protected', protect,(req, res,  next) => {
-// 	// if (!req.session.user) {
-// 	// 	return res.status(401).send("Unauthhereorized")
-// 	// } else {
-// 	// 	next();
-// 	// }
+// app.use(async (req, res, next) => {
+// 	if (req.session.user) {
+// 		console.log(
+// 			`${new Date().toUTCString()} ${req.method} ${
+// 				req.originalUrl
+// 			} (Authenticated User)`
+// 		);
+// 	} else {
+// 		console.log(
+// 			`${new Date().toUTCString()} ${req.method} ${
+// 				req.originalUrl
+// 			} (Non-Authenticated User)`
+// 		);
+// 	}
 // 	next();
 // });
 

@@ -14,6 +14,11 @@ const checkDirectorName = (title)=>{
     let splittedName = title.split(' ');
     if(splittedName.length !== 2 || splittedName[0].trim().length<=2 || splittedName[1].trim().length<=2)  throw"Please enter a valid name for Director"
 }
+
+const checkName = (title)=>{
+    if(typeof title !== 'string' || !title.match(/^[a-zA-Z]*$/g)) throw"Please enter a valid name"
+    if(title.length<=2)  throw"Please enter a valid name"
+}
 const checkValidTitle=(title)=>{
     if(typeof title != 'string' || title.length<2 || !title.match(/^[a-zA-Z0-9 ]*$/g)) throw"Please enter a valid title"
 }
@@ -108,6 +113,7 @@ const isValidObject =(obj)=>{
 }
 
 const isPasswordValid = (password)=>{
+    if(typeof password!="string" || password.length<6) throw "Invalid password"
     let caps=false, spec=false, num=false;
     if(password.indexOf(' ') >= 0) throw 'Invalid Password'
     for(let x of password){
@@ -121,6 +127,30 @@ const isPasswordValid = (password)=>{
     if(!spec|| !caps || !num) throw "Invalid password format"
 }
 
+const checkUserObject =(user)=>{
+    let username = user.userName;
+    let password = user.password;
+    
+    if (
+        !isProperString(username) ||
+        username.length < 4
+      )
+        throw "Invalid username or password. ";
+      username = username.trim().toLowerCase();
+      password = password.trim();
+      if(user['role'] == undefined) user.role = "USER"
+    //  isPasswordValid(password);
+    let keys = Object.keys(user)
+    for(let i=0; i<keys.length; i++){
+        let element = user[keys[i]]
+        if(typeof(element)=="undefined")
+            throw "Please provide valid attributes"
+    };
+    checkName(user.firstName);
+    checkName(user.lastName);
+
+    return true;
+}
 
 module.exports ={
     isValidObject,
@@ -133,5 +163,6 @@ module.exports ={
     checkValidCasteMember,
     checkValidDate,
     checkRuntime,
-    isPasswordValid
+    isPasswordValid,
+    checkUserObject
 }

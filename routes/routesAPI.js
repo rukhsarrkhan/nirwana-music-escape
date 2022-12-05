@@ -26,18 +26,8 @@ router
     res.render("userRegister", { title: "Register" });
   })
   .post(async (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    try {
-      if (
-        !isProperString(username) ||
-        !isProperString(password) ||
-        username.length < 4 ||
-        password.length < 6
-      )
-        throw "Invalid username or password. ";
-      isPasswordValid(password);
-      let response = await usersData.createUser(username, password);
+    try{
+      let response = await usersData.createUser(req.body);
       return res.status(201).json(response);
     } catch (error) {
       res.sendStatus(400);
@@ -45,10 +35,11 @@ router
   });
 
 router.route("/login").post(async (req, res) => {
-  let username = req.body.username;
+ 
+  let userName = req.body.userName;
   let password = req.body.password;
   try {
-    let response = await usersData.checkUser(username, password);
+    let response = await usersData.checkUser(userName, password);
     return res.status(200).json(response)
   } catch (error) {
     res.status(400).json(error);
