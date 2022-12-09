@@ -45,7 +45,6 @@ router
     .route('/playlist/:playlistId')
     .get(async (req, res) => {
       //const playlistPutData = req.body;
-      // TO DO: Add playlistId validation in another try catch 
       try{
         let response = await playlistData.getPlaylist(req.params.playlistId);
         return res.status(200).json(response)
