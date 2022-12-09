@@ -29,7 +29,7 @@ router
       let response = await usersData.createUser(req.body);
       return res.status(201).json(response);
     } catch (error) {
-      res.send(400).json(error);
+      res.status(400).json(error);//using send will crash the code in edge case
     }
   });
 
