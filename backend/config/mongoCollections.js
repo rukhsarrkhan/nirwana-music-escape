@@ -19,5 +19,6 @@ const getCollectionFn = (collection) => {
 NOTE: YOU WILL NEED TO CHANGE THE CODE BELOW TO HAVE THE COLLECTION(S) REQUIRED BY THE ASSIGNMENT */
 module.exports = {
 	user_collection: getCollectionFn('user_collection'),
-	playlist_collection: getCollectionFn('playlist_collection')
+	playlist_collection: getCollectionFn('playlist_collection'),
+	songs_collection: getCollectionFn('songs_collection')
 };

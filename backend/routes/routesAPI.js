@@ -45,6 +45,7 @@ router.route("/login").post(async (req, res) => {
   }
 });
 
+// This is adding protection to the routes
 router.get('/protected', protect, protectedArea);
 
 
