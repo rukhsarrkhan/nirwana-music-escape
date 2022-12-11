@@ -6,6 +6,7 @@ const userCollection = mongoCollections.user_collection;
 const validation = require('../helpers')
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
+const songsData = require('./songs')
 
 const createPlaylistObject = async(obj)=>{
     let playlistId = new ObjectId()
@@ -18,6 +19,38 @@ const createPlaylistObject = async(obj)=>{
     return playlist;
   }
 
+const addSongs = async(playlistId, songId)=>{
+    validation.checkObjectId(playlistId);
+    validation.checkObjectId(songId);
+    let song;
+    songsData.getSongsById(songId)//returns a Promise
+    .then(songInfo=>{
+      song=songInfo
+    }); //Promise function needs to persist return "PromiseResult"
+    let playlist;
+    getPlaylist(playlistId)//returns a Promise
+    .then(result =>{
+      playlist=result
+    });//"PromiseResult store to variable playlist"
+
+    const users = await userCollection();
+    const user = await users.findOne({ 
+      "playlist._id": new ObjectId(playlistId)
+    })// after this conducted, Promise(song) triggered
+    if (user == null) throw "No playlist with that id";
+    
+    const updateInfo = await users.updateOne(
+      {
+        "playlist._id":new ObjectId(playlistId)
+      },
+      {$addToSet:{
+        "playlist.$.songs":song
+      }
+      }
+    )// after this conducted, anther Promise(playlist) triggered
+    if (updateInfo.modifiedCount === 0) throw " this song already exist under this playlist "
+    return playlist['songs']
+    };
 const createPlaylist = async (userId, obj) => {
     validation.checkObjectId(userId)
     validation.checkPlistObj(obj)
@@ -125,5 +158,6 @@ module.exports = {
     getAllPlaylist,
     deletePlaylist,
     modifyPlaylist,
-    getPlaylist
+    getPlaylist,
+    addSongs
 }

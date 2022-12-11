@@ -65,7 +65,17 @@ router
       }catch (e) {
         res.status(400).json({error:e});
     }
-
     })
+    .post(async (req, res) => {
+        
+      const songId = "63950bc60e6b87061a2e4ee0";
+      try{
+          let response = await playlistData.addSongs(req.params.playlistId, songId);
+          return res.status(201).json(response)
+      } catch (e) {
+          res.status(400).json({error:e});
+      }
+      });
+
   
   module.exports = router;

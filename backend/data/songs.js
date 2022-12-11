@@ -183,7 +183,8 @@ module.exports = {
   uploadSong,
   fetchSongs,
   deleteSong,
-  fetchSong
+  fetchSong,
+  getSongsById
 };
 
 // add validations
