@@ -6,7 +6,8 @@ const userCollection = mongoCollections.user_collection;
 const validation = require('../helpers')
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
-const songsData = require('./songs')
+const songsData = require('./songs');
+const { mergeBatchResults } = require("mongodb/lib/bulk/common");
 
 const createPlaylistObject = async(obj)=>{
     let playlistId = new ObjectId()
@@ -22,17 +23,18 @@ const createPlaylistObject = async(obj)=>{
 const addSongs = async(playlistId, songId)=>{
     validation.checkObjectId(playlistId);
     validation.checkObjectId(songId);
-    let song;
-    songsData.getSongsById(songId)//returns a Promise
-    .then(songInfo=>{
-      song=songInfo
-    }); //Promise function needs to persist return "PromiseResult"
-    let playlist;
-    getPlaylist(playlistId)//returns a Promise
-    .then(result =>{
-      playlist=result
-    });//"PromiseResult store to variable playlist"
-
+    //let song;
+    //songsData.getSongsById(songId)//returns a Promise
+    let song = await songsData.getSongsById(songId)
+    // .then(songInfo=>{
+    //   song=songInfo
+    // }); //Promise function needs to persist return "PromiseResult"
+    // let playlist;
+    // getPlaylist(playlistId)//returns a Promise
+    // .then(result =>{
+    //   playlist=result
+    // });//"PromiseResult store to variable playlist"
+    let playlist = await getPlaylist(playlistId)
     const users = await userCollection();
     const user = await users.findOne({ 
       "playlist._id": new ObjectId(playlistId)
@@ -62,15 +64,15 @@ const createPlaylist = async (userId, obj) => {
     //if(playlist.playlistName==user.playlist[0].playlistName) throw "this playlistName already exist"
     const updateInfo = await users.updateOne(
         {_id: ObjectId(userId)},
-        {$push: {playlist: playlist}}
+        {$addToSet: {playlist: playlist}}
     );
     if (updateInfo.modifiedCount === 0) throw " Could not add playlist successfully "
-    return playlist;
+    return user['playlist'];
     };
 
 
 const getAllPlaylist = async (userId) => {
-    //helper
+
     userId = userId.trim();
     validation.checkObjectId(userId)
 
@@ -133,23 +135,28 @@ const modifyPlaylist = async (playlistId, obj) => {
 const getPlaylist = async (playlistId) => {
       validation.checkObjectId(playlistId)
       const users = await userCollection();
-      const user = await users.findOne({
+      const user = await users
+      .findOne({
          'playlist._id': ObjectId(playlistId)
         },
-        {
-          'playlist.$':1
+        {projection:
+          {_id:0,playlist:1}
         }
-         );
-      // locate playlists by nested object reviews
+      )
+      // findOne function returns a object have attribute of playlists
+      // aggregate returns a cursor that needs furture implementations.
+      // locate playlists by nested object playlists
       if (user == null) throw 'error: playlist not found';
-      let playlist = {};
-      for (let i = 0; i < user.playlist.length; i++) {
-        if (user.playlist[i]._id.toString() == playlistId) {
-        user.playlist[i]._id = user.playlist[i]._id.toString();
-        playlist = user.playlist[i]
+      let result = {}
+      let plist = user['playlist']
+      for (let i = 0; i<plist.length; i++){
+        if (plist[i]._id.toString() == playlistId){
+          plist[i]._id = plist[i]._id.toString();
+          result = plist[i]
+          break
         }
-      }
-      return playlist;
+      }    
+      return result
     };
 
 module.exports = {
