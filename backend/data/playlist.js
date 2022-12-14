@@ -23,22 +23,11 @@ const createPlaylistObject = async(obj)=>{
 const addSongs = async(playlistId, songId)=>{
     validation.checkObjectId(playlistId);
     validation.checkObjectId(songId);
-    //let song;
-    //songsData.getSongsById(songId)//returns a Promise
     let song = await songsData.getSongsById(songId)
-    // .then(songInfo=>{
-    //   song=songInfo
-    // }); //Promise function needs to persist return "PromiseResult"
-    // let playlist;
-    // getPlaylist(playlistId)//returns a Promise
-    // .then(result =>{
-    //   playlist=result
-    // });//"PromiseResult store to variable playlist"
-    let playlist = await getPlaylist(playlistId)
     const users = await userCollection();
     const user = await users.findOne({ 
       "playlist._id": new ObjectId(playlistId)
-    })// after this conducted, Promise(song) triggered
+    })
     if (user == null) throw "No playlist with that id";
     
     const updateInfo = await users.updateOne(
@@ -49,10 +38,36 @@ const addSongs = async(playlistId, songId)=>{
         "playlist.$.songs":song
       }
       }
-    )// after this conducted, anther Promise(playlist) triggered
+    )
     if (updateInfo.modifiedCount === 0) throw " this song already exist under this playlist "
+
+    const playlist = await getPlaylist(playlistId)
     return playlist['songs']
     };
+
+const deleteSongs = async(playlistId, songId)=>{
+    validation.checkObjectId(playlistId);
+    validation.checkObjectId(songId);
+    const users = await userCollection();
+    const updateInfo = await users
+    .findOneAndUpdate(
+      {
+        "playlist._id":new ObjectId(playlistId)
+      },
+      {$set:{
+        "playlist.$.songs":1
+      }
+      }
+      ,{returnDocument: 'after'}
+    );
+
+    if (!updateInfo.LastErrorObject.updatedExisting){
+        throw 'could not delete songs successfully'
+    }
+    // const playlist = getPlaylist(playlistId)
+    // return playlist
+    return updateInfo.value.playlist
+}
 const createPlaylist = async (userId, obj) => {
     validation.checkObjectId(userId)
     validation.checkPlistObj(obj)
@@ -166,5 +181,6 @@ module.exports = {
     deletePlaylist,
     modifyPlaylist,
     getPlaylist,
-    addSongs
+    addSongs,
+    deleteSongs
 }

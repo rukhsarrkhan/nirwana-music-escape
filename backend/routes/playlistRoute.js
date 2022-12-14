@@ -66,16 +66,26 @@ router
         res.status(400).json({error:e});
     }
     })
-    .post(async (req, res) => {
-        
-      const songId = "63950d820e6b87061a2e4ee1";
+
+router
+    .route('/playlist/:playlistId/songs/:songId')
+    .post(async (req, res) => { 
       try{
-          let response = await playlistData.addSongs(req.params.playlistId, songId);
+          let response = await playlistData.addSongs(req.params.playlistId, req.params.songId);
           return res.status(201).json(response)
       } catch (e) {
           res.status(400).json({error:e});
       }
-      });
+      })
+
+    .delete(async (req, res) => {
+      try{
+        let response = await playlistData.deleteSongs(req.params.playlistId, req.params.songId);
+        return res.status(200).json(response)
+      }catch (e) {
+        res.status(400).json({error:e});
+    }
+    })
 
   
   module.exports = router;
