@@ -1,4 +1,4 @@
-const { TopologyOpeningEvent } = require("mongodb");
+const { TopologyOpeningEvent,ObjectId } = require("mongodb");
 
 const isProperString = (string)=>{
     return typeof string=='string'  && string.trim().length!=0
@@ -152,6 +152,44 @@ const checkUserObject =(user)=>{
     return true;
 }
 
+function checkObjectId(id){
+    if (!ObjectId.isValid(id)) {
+        throw 'Invalid ObjectId';
+    }
+}
+
+function checkPlistName(str) {
+    if (typeof str !== 'string') {
+      throw 'String expected';
+    }
+    if (str.trim().length < 2) {
+      throw 'String must have more than 2 characters';
+    }
+    function isTitle(str) {
+      const regex = /^[a-zA-Z0-9 ]+$/;
+      //const regexNumb = /^[0-9 ]+$/;
+      if (regex.test(str)) {
+        return true;    
+    }else{
+        return false;
+    }
+    }
+    if (!isTitle(str)) {
+        throw 'String must contain letters a-z, A-Z or numbers';
+        }
+  }
+
+function checkPlistObj(obj){
+    let plistName = obj.playlistName
+    let plistDesc = obj.description
+    //let plistsong = obj.songs
+    checkPlistName(plistName)
+    isProperString(plistDesc)
+    //isProperArray(plistsong)
+
+}
+
+
 module.exports ={
     isValidObject,
     isProperString,
@@ -164,5 +202,8 @@ module.exports ={
     checkValidDate,
     checkRuntime,
     isPasswordValid,
-    checkUserObject
+    checkUserObject,
+    checkPlistName,
+    checkObjectId,
+    checkPlistObj
 }
