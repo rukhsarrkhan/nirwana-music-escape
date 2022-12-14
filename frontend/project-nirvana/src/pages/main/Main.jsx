@@ -16,20 +16,13 @@ const Main = (props) => {
         <div className="body-container">
             <Header />
             <div className="body">
-
             </div>
-          {/* <ResponsiveDrawer /> */}
-          {/* <UsersContainer /> */}
-          
-          {/* <Box style={{ height: "100vh"}}>
-            hello world
-          </Box> */}
         </div>
         </div>
-        
-        
+        {/* <Route exact path='/' element={< Home />}></Route>
+        <Route exact path='/about' element={< About />}></Route>
+        <Route exact path='/contact' element={< Contact />}></Route> */}
         <Footer />
-        {/* <Main/> */}
       </div>
   );
 };

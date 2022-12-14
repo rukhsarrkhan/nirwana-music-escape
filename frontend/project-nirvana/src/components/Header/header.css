@@ -10,22 +10,6 @@
     align-items: center;
   }
   
-  .search-area {
-    flex: 0.5;
-    display: flex;
-    background-color: white;
-    padding: 10px;
-    border-radius: 30px;
-    color: gray;
-    align-items: center;
-  }
-  
-  .search-area > input {
-    border: none;
-    width: 100%;
-    outline: none;
-  }
-  
   .user-area > h4 {
     margin-left: 10px;
   }

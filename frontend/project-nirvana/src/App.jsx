@@ -13,12 +13,21 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Main from './pages/main/Main'
 // import Main from './pages/main/Main'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  BrowserRouter
+} from 'react-router-dom';
 const drawerWidth = 240;
 const App=()=> {
   return (
     
     <Provider store={store}>
+      <Router>
        <Main/>
+       </Router>
     </Provider>
   );
 }
