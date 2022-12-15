@@ -8,6 +8,10 @@ router
   .route("/")
   .get(async (req, res) => {
     try{
+<<<<<<< HEAD
+=======
+      console.log("here")
+>>>>>>> bb477d8 (Sorting & groupby logic)
       let response = await songsData.fetchSongs(req.query.sort_by);
       return res.status(200).json(response);
     } catch (error) {

@@ -142,7 +142,7 @@ const fetchSongs = async (sort_by) => {
 
 const fetchSongForPlaylistForm = async() => {
   const songsCollection = await songs();
-  let songList = await songsCollection.find({}).toArray();
+  let songList = await songsCollection.find({}).sort({sort_by:1}).toArray();
   if (!songList) {
     throw 'Could not get all songs';
   }
