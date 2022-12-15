@@ -95,16 +95,20 @@ const uploadSong = async (obj) => {
   return newSong;
 };
 
-const fetchSongs = async () => {
+const fetchSongs = async (sort_by="_id") => {
   const songsCollection = await songs();
-  let songList = await songsCollection.find({}).toArray();
+  let songList = await songsCollection.find({}).sort({sort_by:1}).toArray();
   if (!songList) {
     throw 'Could not get all songs';
   }
+  const returndata={ }
   songList.forEach(song => {
     song._id = song._id.toString();
+    if(returndata[song[sort_by]]===undefined) returndata[song[sort_by]]=[]
+    returndata[song[sort_by]].push(song)
   });
-  return songList;
+  console.log(songList,'songList');
+  return returndata;
 };
 
 const generatePresignedURL = async (path) => {

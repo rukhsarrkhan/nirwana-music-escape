@@ -25,6 +25,13 @@ router
     res.render("userRegister", { title: "Register" });
   })
   .post(async (req, res) => {
+    try {
+      validateUsernameNPassword(usernameInput, passwordInput);
+    } catch (e) {
+      return res
+        .status(400)
+        .render("userRegister", { title: "Register", error: e });
+    }
     try{
       let response = await usersData.createUser(req.body);
       return res.status(201).json(response);
@@ -37,6 +44,13 @@ router.route("/login").post(async (req, res) => {
  
   let userName = req.body.userName;
   let password = req.body.password;
+  try {
+    validateUsernameNPassword(usernameInput, passwordInput);
+  } catch (e) {
+    return res
+      .status(400)
+      .render("userLogin", { title: "Login", error: e });
+  }
   try {
     let response = await usersData.checkUser(userName, password);
     return res.status(200).json(response)
