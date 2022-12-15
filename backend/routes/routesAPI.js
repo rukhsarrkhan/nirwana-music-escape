@@ -26,9 +26,13 @@ router
   })
   .post(async (req, res) => {
     try {
+<<<<<<< HEAD
       let userName = req.body.userName;
       let password = req.body.password
       validateUsernameNPassword(userName, password);
+=======
+      validateUsernameNPassword(usernameInput, passwordInput);
+>>>>>>> 2029ebc (validations for user authentication)
     } catch (e) {
       return res
         .status(400)
@@ -47,7 +51,11 @@ router.route("/login").post(async (req, res) => {
   let userName = req.body.userName;
   let password = req.body.password;
   try {
+<<<<<<< HEAD
     validateUsernameNPassword(userName, password);
+=======
+    validateUsernameNPassword(usernameInput, passwordInput);
+>>>>>>> 2029ebc (validations for user authentication)
   } catch (e) {
     return res
       .status(400)
