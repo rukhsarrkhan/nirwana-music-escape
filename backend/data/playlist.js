@@ -1,13 +1,9 @@
 const mongoCollections = require("../config/mongoCollections");
 const userCollection = mongoCollections.user_collection;
-// const bcrypt = require("bcrypt");
-// const saltRounds = 8;
-//const { isProperString, isPasswordValid, checkUserObject } = require("../helpers");
 const validation = require('../helpers')
-const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 const songsData = require('./songs');
-const { mergeBatchResults } = require("mongodb/lib/bulk/common");
+
 
 const createPlaylistObject = async(obj)=>{
     let playlistId = new ObjectId()
@@ -49,24 +45,23 @@ const deleteSongs = async(playlistId, songId)=>{
     validation.checkObjectId(playlistId);
     validation.checkObjectId(songId);
     const users = await userCollection();
-    const updateInfo = await users
-    .findOneAndUpdate(
+    const deleteInfo = await users
+    .updateOne(
       {
         "playlist._id":new ObjectId(playlistId)
       },
-      {$set:{
-        "playlist.$.songs":1
+      {$pull:{
+        "playlist.$.songs":{"_id":songId}
       }
       }
-      ,{returnDocument: 'after'}
-    );
+)
 
-    if (!updateInfo.LastErrorObject.updatedExisting){
+    if (!deleteInfo.matchedCount&&!deleteInfo.modifiedCount){
         throw 'could not delete songs successfully'
     }
-    // const playlist = getPlaylist(playlistId)
-    // return playlist
-    return updateInfo.value.playlist
+    const playlist = getPlaylist(playlistId)
+    return playlist
+
 }
 const createPlaylist = async (userId, obj) => {
     validation.checkObjectId(userId)
