@@ -1,0 +1,19 @@
+.body-container{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    overflow-y: hidden;
+    
+}
+.main{
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 1));
+     background-color: rgb(91, 87, 115);
+}
+@media screen and (max-width: 600px) {
+    .body-container {
+     margin-top: 48px;
+    }
+  }

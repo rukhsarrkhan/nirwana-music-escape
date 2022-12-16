@@ -4,6 +4,6 @@ const playlistsData = require('./playlist')
 const songsData = require('./songs');
 module.exports = {
 	usersData: usersData,
-	playlistsData: playlistsData,
+	playlistsData: playlistsData, 
 	songsData: songsData
 };

@@ -1,0 +1,48 @@
+.footer{
+    padding: 0 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0px;
+    padding-bottom: 20px;
+}
+.footer__song-info{
+    display: flex;
+    align-items: center;
+    color: white;
+    width: 300px;
+    flex: 0.3;
+}
+.footer__player{
+    flex: 0.4;
+    max-width: 300px;
+    padding: 0 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.footer__song-info__logo{
+    height: 60px;
+    width: 60px;
+    margin-right: 20px;
+    object-fit: contain;
+}
+.player{
+    flex: 0.4;
+    max-width: 300px;
+    padding: 0 100px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.footer__volune{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    flex: 0.3;
+}
