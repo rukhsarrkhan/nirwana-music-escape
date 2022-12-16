@@ -71,8 +71,8 @@ const uploadFile = async (file, fileName) => {
 
 const uploadSong = async (obj) => {
   console.log("obj", obj);
-  const s3ReturnObj = await uploadFile(obj.song, obj.songName);
-  console.log("s3ReturnObj", s3ReturnObj);
+  // const s3ReturnObj = await uploadFile(obj.song, obj.songName);
+  // console.log("s3ReturnObj", s3ReturnObj);
   const today = moment(new Date()).format("MM/DD/YYYY");
 
   const songUrl = "https://" + "nivana-music" + ".s3.amazonaws.com/" + obj.songName + ".mp3";
