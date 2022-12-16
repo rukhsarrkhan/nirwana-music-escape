@@ -3,7 +3,7 @@ import ResponsiveDrawer from "../../components/sidebar/sidebar";
 
 import "./main.css";
 import Header from "../../components/Header/Header";
-import { Routes, Router, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import Homepage from "../Homepage/Homepage";
 import CreatePlaylist from "../add-playlist/CreatePlaylist";
@@ -11,7 +11,6 @@ import LoginPage from "../login/login-page.component";
 import RegisterPage from "../register/register-page.component";
 
 const loggedIn = false;
-const drawerWidth = 250;
 const Main = (props) => {
   return (
     <div className="main">

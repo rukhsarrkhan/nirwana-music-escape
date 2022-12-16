@@ -51,6 +51,7 @@ const uploadFile = async (file, fileName) => {
   var fileStream = fs.createReadStream(file);
   fileStream.on('error', function (err) {
     console.log('File Error', err);
+    // TO DO: return error
   });
   const params = {
     Bucket: 'nivana-music', // pass your bucket name
@@ -61,6 +62,7 @@ const uploadFile = async (file, fileName) => {
   return s3.upload(params, function (err, data) {
     if (err) {
       console.log("Error", err);
+      // TO DO: return error
     } if (data) {
       console.log("Upload Success", data.Location);
       return data.Location;
@@ -70,6 +72,8 @@ const uploadFile = async (file, fileName) => {
 
 
 const uploadSong = async (obj) => {
+  // TO DO: add obj validation
+  // TO DO: check if song already exists in database
   console.log("obj", obj);
   // const s3ReturnObj = await uploadFile(obj.song, obj.songName);
   // console.log("s3ReturnObj", s3ReturnObj);
@@ -123,6 +127,7 @@ const seedSongs = async (obj) => {
 };
 
 const fetchSongs = async (sort_by) => {
+  // TO DO: add sort_by validation
   const songsCollection = await songs();
   let songList = await songsCollection.find({}).sort({sort_by:1}).toArray();
   if (!songList) {
@@ -180,6 +185,7 @@ const generatePresignedURL = async (path) => {
 
 };
 const fetchSong = async (id) => {
+  // TO: add song id validation
   const data = await getSongsById(id);
   console.log("data", data);
   const data2 = await generatePresignedURL(data.songName);
@@ -201,6 +207,7 @@ const fetchSong = async (id) => {
     fs.writeFile(path, response.data, (err) => {
       if (err) {
         console.log("err", err);
+        // TO DO: return error
       } else {
         resolve('./output/'.concat(filename));
       }
