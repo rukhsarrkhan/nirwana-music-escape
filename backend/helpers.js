@@ -407,6 +407,7 @@ const inputStringValidation = (input, inputString) => {
   }
 };
 
+
 module.exports = {
   isValidObject,
   isProperString,
@@ -420,6 +421,9 @@ module.exports = {
   checkRuntime,
   isPasswordValid,
   checkUserObject,
+  checkPlistName,
+  checkObjectId,
+  checkPlistObj,
   validateUsernameNPassword,
   validateCreateUserObject,
   checkUserObject,
