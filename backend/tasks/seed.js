@@ -1,10 +1,8 @@
 const dbConnection = require('../config/mongoConnection');
-const data = require('../data');
-const {checkPlistObj} = require("../helpers");
-const {playlistsData} = require("../data");
+const data = require('../data/');
 const users = data.usersData;
-const playlist = data.playlistsData
 const songs = data.songsData;
+const playlist = data.playlistsData
 
 async function main() {
   const db = await dbConnection.dbConnection();

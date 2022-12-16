@@ -72,7 +72,15 @@ router
       }catch (e) {
         res.status(400).json({error:e});
     }
-    })
+  })
+  .delete(async (req, res) => {
+    try {
+      let response = await playlistData.deletePlaylist(req.params.playlistId);
+      return res.status(200).json(response);
+    } catch (e) {
+      res.status(400).json({ error: e });
+    }
+  });
 
 router
     .route('/playlist/:playlistId/songs/:songId')
