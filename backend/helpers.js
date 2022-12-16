@@ -121,23 +121,6 @@ function checkPlistObj(obj){
 
 }
 
-module.exports ={
-    isValidObject,
-    isProperString,
-    checkDirectorName,
-    checkGenre,
-    checkValidTitle,
-    checkValidStudio,
-    checkValidRating,
-    checkValidCasteMember,
-    checkValidDate,
-    checkRuntime,
-    isPasswordValid,
-    checkUserObject,
-    checkPlistName,
-    checkObjectId,
-    checkPlistObj
-}
 const checkRuntime = (runtime) => {
   if (typeof runtime != "string" || runtime.split(" ").length != 2)
     throw "Not a valid runtime";
@@ -321,4 +304,9 @@ module.exports = {
   checkUserObject,
   validateUsernameNPassword,
   validateCreateUserObject,
+  checkUserObject,
+  checkPlistName,
+  checkObjectId,
+  checkPlistObj
 };
+

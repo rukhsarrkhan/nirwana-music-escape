@@ -8,7 +8,6 @@ router
   .route("/")
   .get(async (req, res) => {
     try{
-      console.log("here")
       let response = await songsData.fetchSongs(req.query.sort_by);
       return res.status(200).json(response);
     } catch (error) {
