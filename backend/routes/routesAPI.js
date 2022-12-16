@@ -27,12 +27,18 @@ router
   .post(async (req, res) => {
     try {
 <<<<<<< HEAD
+<<<<<<< HEAD
       let userName = req.body.userName;
       let password = req.body.password
       validateUsernameNPassword(userName, password);
 =======
       validateUsernameNPassword(usernameInput, passwordInput);
 >>>>>>> 2029ebc (validations for user authentication)
+=======
+      let userName = req.body.userName;
+      let password = req.body.password
+      validateUsernameNPassword(userName, password);
+>>>>>>> ead7024 (feat: added route for frontend and also added seed files)
     } catch (e) {
       return res
         .status(400)
@@ -52,10 +58,14 @@ router.route("/login").post(async (req, res) => {
   let password = req.body.password;
   try {
 <<<<<<< HEAD
+<<<<<<< HEAD
     validateUsernameNPassword(userName, password);
 =======
     validateUsernameNPassword(usernameInput, passwordInput);
 >>>>>>> 2029ebc (validations for user authentication)
+=======
+    validateUsernameNPassword(userName, password);
+>>>>>>> ead7024 (feat: added route for frontend and also added seed files)
   } catch (e) {
     return res
       .status(400)
