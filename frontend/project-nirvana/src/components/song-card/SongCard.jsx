@@ -5,17 +5,18 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 const   SongCard = ({item}) => {
-  const {id, name, price, imageUrl} = item;
+
+  const {artist, songName, genre, imageUrl} = item;
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ width: 275 }}>
             <CardContent>
             <Typography variant="h5" component="div">
-                {name}
+                {songName}
             </Typography>
             <Typography variant="body2">
-                {price}
+                {genre}
                 <br />
-                {id}
+                {artist}
             </Typography>
             </CardContent>
             <CardActions>

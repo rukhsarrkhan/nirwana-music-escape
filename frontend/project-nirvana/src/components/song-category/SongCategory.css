@@ -3,3 +3,7 @@
     justify-content: space-around;
     
 }
+.title{
+    text-transform: uppercase;
+    color: white;
+}

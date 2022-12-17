@@ -21,8 +21,8 @@ export const fetchSongsAPICall=()=>{
     return async (dispatch)=>{
         dispatch(fetchSongs())
         try {
-          //  let resp = await axios.get('https://jsonplaceholder.typicode.com/songs')
-            dispatch(fetchSongsSuccess("resp.data"))
+            let resp = await axios.get('http://localhost:3000/songs?sort_by=genre')
+            dispatch(fetchSongsSuccess(resp.data))
         } catch (error) {
             console.log(error)
         }

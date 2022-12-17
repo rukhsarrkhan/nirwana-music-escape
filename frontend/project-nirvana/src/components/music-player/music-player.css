@@ -1,0 +1,41 @@
+.music-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .play-pause-button {
+    background-color: #fff;
+    border: none;
+    color: #333;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .repeat-button {
+    background-color: #fff;
+    border: none;
+    color: #333;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .volume-control {
+    width: 100px;
+    margin: 0 10px;
+  }
+  
+  .progress-bar {
+    flex: 1;
+    margin: 0 10px;
+  }
+  

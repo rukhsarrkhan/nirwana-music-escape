@@ -200,19 +200,19 @@ const fetchSong = async (id) => {
     }
 
   })
+  return data2
   // console.log("response", response.data);
   const filename = data.songName + ".mp3"
   const path = Path.resolve(__dirname, '../output',filename);
-  return new Promise((resolve, reject) => {
-    fs.writeFile(path, response.data, (err) => {
-      if (err) {
-        console.log("err", err);
-        // TO DO: return error
-      } else {
-        resolve('./output/'.concat(filename));
-      }
-    });
-  });
+  // return new Promise((resolve, reject) => {
+  //   fs.writeFile(path, response.data, (err) => {
+  //     if (err) {
+  //       console.log("err", err);
+  //     } else {
+  //       resolve('./output/'.concat(filename));
+  //     }
+  //   });
+  // });
 
 
 

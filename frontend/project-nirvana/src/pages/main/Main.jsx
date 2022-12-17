@@ -9,6 +9,7 @@ import Homepage from "../Homepage/Homepage";
 import CreatePlaylist from "../add-playlist/CreatePlaylist";
 import LoginPage from "../login/login-page.component";
 import RegisterPage from "../register/register-page.component";
+import MusicPlayer from "../../components/music-player/MusicPlayer";
 
 const loggedIn = false;
 const Main = (props) => {
@@ -16,10 +17,10 @@ const Main = (props) => {
     <div className="main">
       
       <div style={{ display: "flex" }}>
-        { loggedIn && (<ResponsiveDrawer style={{ backgroundColor: "#040404" }} />)}
+        { (<ResponsiveDrawer style={{ backgroundColor: "#040404" }} />)}
 
         <div className="body-container">
-        { loggedIn &&  (<Header />)}
+        {  (<Header />)}
           <Routes>
             <Route path="/" element={<Homepage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
@@ -28,7 +29,7 @@ const Main = (props) => {
           </Routes>
         </div>
       </div>
-      { loggedIn &&  (<Footer />)}
+      {(<MusicPlayer />)}
     </div>
   );
 };

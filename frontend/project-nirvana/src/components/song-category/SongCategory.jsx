@@ -1,14 +1,17 @@
 import React from 'react'
 import SongCard from '../song-card/SongCard'
 import './SongCategory.css'
-const SongCategory = ({title, items}) => {
+const SongCategory = (props) => {
+    //console.log('here')
+//  console.log(props)
+ //console.log(items)
   return (
     <div className='category-viewer'>
-        <h1 className="title">{title.toUpperCase()}</h1>
+        <h1 className="title">{props.title}</h1>
         <div className='category-list'>
-        {
-               items.filter((item, idx)=>idx<4).map((item)=>(
-                    <SongCard key={item.id} item={item} />
+        {  
+               props.songs.filter((song, idx)=>idx<4).map((song)=>(
+                    <SongCard key={song._id} item={song} />
                 ))
         }
         </div>
