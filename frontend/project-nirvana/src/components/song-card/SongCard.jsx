@@ -4,9 +4,12 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-const   SongCard = ({item}) => {
-
-  const {artist, songName, genre, imageUrl} = item;
+import {fetchSongToPlayAPICall} from '../../redux/songs/songActions'
+import { connect } from 'react-redux';
+const   SongCard = ({item, fetchSongToPlayAPICall}) => {
+//  console.log(fetchSongToPlayAPICall)
+  
+  const {artist, songName, genre, imageUrl, _id} = item;
   return (
     <Card sx={{ width: 275 }}>
             <CardContent>
@@ -20,10 +23,27 @@ const   SongCard = ({item}) => {
             </Typography>
             </CardContent>
             <CardActions>
-            <Button size="small">Learn More</Button>
+            <Button size="small" onClick={()=>fetchSongToPlayAPICall(_id)}>Play</Button>
     </CardActions>
 </Card>
   )
 }
 
-export default SongCard
+
+const mapStateToProps = state => {
+  //console.log(state)
+  return {
+    playerSong : state
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchSongToPlayAPICall:(obj)=>dispatch(fetchSongToPlayAPICall(obj))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SongCard)

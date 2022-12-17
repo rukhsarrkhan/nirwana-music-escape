@@ -1,11 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios'
+import {fetchSongToPlayAPICall} from '../../redux/songs/songActions'
+import { connect } from 'react-redux';
 import './music-player.css'
-const MusicPlayer = (props) => {
+const MusicPlayer = ({playerSong}) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [repeat, setRepeat] = useState(false);
   const [volume, setVolume] = useState(1);
+  const [musicObj, setMusicObj] = useState("");
+  console.log(playerSong)
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -26,23 +30,34 @@ const MusicPlayer = (props) => {
     audioRef.current.volume = event.target.value;
   };
 
-  const [musicObj, setMusicObj] = useState("");
-  useEffect(() => {
-    testLink()
-    }, [])
+ 
+//   useEffect(() => {
+//     testLink()
+//     // if(typeof playerSong !="undefined") 
+//     // setMusicObj(playerSong.playerSong)
+//     }, [])
+    // useEffect(() => {
+    //     testLink()
+    //     if(typeof playerSong !="undefined") 
+    //     setMusicObj(playerSong.playerSong)
+    //     }, [playerSong])
 
-    const testLink=async()=>{
-        try {
-            let {data} = await axios.get('http://localhost:3000/songs/639cc73864c38f8d53780dbe');
-            const blob = new Blob([data], {type: 'audio/mp3' });
-            const url = URL.createObjectURL(blob);
-            console.log("resp", data);
-            setMusicObj(data)
-          } catch (error) {
-            console.log(error);
-          }
-    }
-
+    // const testLink=async()=>{
+    //     try {
+    //         let {data} = await axios.get('http://localhost:3000/songs/639d36f90714051adb426682');
+    //         const blob = new Blob([data], {type: 'audio/mp3' });
+    //         const url = URL.createObjectURL(blob);
+    //         console.log("resp", data);
+    //         setMusicObj(data)
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    // }
+    useEffect(() => {
+        setMusicObj(playerSong.playerSong)
+        if(Object.keys(playerSong).length>0) 
+        togglePlay()
+        }, [playerSong])
   return (
     <div className="music-player">
       <audio src={musicObj} ref={audioRef} />
@@ -66,4 +81,20 @@ const MusicPlayer = (props) => {
   );
 };
 
-export default MusicPlayer;
+const mapStateToProps = state => {
+    //console.log(state)
+    return {
+      playerSong : state.playerSong
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+    //   fetchSongToPlayAPICall:(obj)=>dispatch(fetchSongToPlayAPICall(obj))
+    }
+  }
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(React.memo(MusicPlayer))
