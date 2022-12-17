@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from "react";
 import axios from 'axios';
+import { useNavigate  } from 'react-router-dom';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -7,24 +8,17 @@ import CustomButton from '../custom-button/custom-button.component';
 // import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import './register.css';
 
-class Register extends React.Component {
-  constructor() {
-    super();
+const Register = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  let navigate = useNavigate();
 
-    this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      phoneNumber: ''
-    };
-  }
-
-  handleSubmit = async event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-
-    const { firstName, lastName, email, password, confirmPassword, phoneNumber } = this.state;
 
     if (password !== confirmPassword) {
       alert("passwords don't match");
@@ -39,13 +33,6 @@ class Register extends React.Component {
 
       // await createUserProfileDocument(user, { firstName });
 
-      // this.setState({
-      //   firstName: '',
-      //   email: '',
-      //   password: '',
-      //   confirmPassword: ''
-      // });
-
       let resp = await axios.post('http://localhost:3000/register', {
         firstName: firstName,
         lastName: lastName,
@@ -54,29 +41,42 @@ class Register extends React.Component {
         phoneNumber: phoneNumber
       });
       console.log("rspo",resp)
+      navigate("/login");
+
     } catch (error) {
       console.error(error);
     }
   };
 
-  handleChange = event => {
+  const handleChange = event => {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value });
+    // this.setState({ [name]: value });
+    if (name == 'firstName'){
+      setFirstName(value)
+    } else if ( name == 'lastName'){
+      setLastName(value)
+    } else if (name == 'email'){
+      setEmail(value)
+    } else if ( name == 'password'){
+      setPassword(value)
+    } else if (name == 'confirmPassword'){
+      setConfirmPassword(value)
+    } else if ( name == 'phoneNumber'){
+      setPhoneNumber(value)
+    }
   };
 
-  render() {
-    const { firstName, lastName, email, password, confirmPassword, phoneNumber } = this.state;
     return (
       <div className='Auth-form-container'>
         <h1>Sign up with your email and password</h1>
-        <form className='Auth-form' onSubmit={this.handleSubmit}>
+        <form className='Auth-form' onSubmit={handleSubmit}>
           <div className='Auth-form-content'>
           <FormInput
             type='text'
             name='firstName'
             value={firstName}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Enter First Name'
             required
           />
@@ -84,7 +84,7 @@ class Register extends React.Component {
             type='text'
             name='lastName'
             value={lastName}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Enter Last Name'
             required
           />
@@ -92,7 +92,7 @@ class Register extends React.Component {
             type='email'
             name='email'
             value={email}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Enter Email Address'
             required
           />
@@ -100,7 +100,7 @@ class Register extends React.Component {
             type='password'
             name='password'
             value={password}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Enter Password'
             required
           />
@@ -108,7 +108,7 @@ class Register extends React.Component {
             type='password'
             name='confirmPassword'
             value={confirmPassword}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Confirm Password'
             required
           />
@@ -116,7 +116,7 @@ class Register extends React.Component {
             type='number'
             name='phoneNumber'
             value={phoneNumber}
-            onChange={this.handleChange}
+            onChange={handleChange}
             label='Enter Phone Number'
             required
           />
@@ -126,7 +126,7 @@ class Register extends React.Component {
         </form>
       </div>
     );
-  }
+
 }
 
 export default Register;

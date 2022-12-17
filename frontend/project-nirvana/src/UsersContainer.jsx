@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { fetchUsers, userRegistrationAPICall } from './redux/users/userActions'
+import { loginUserAPICall, userRegistrationAPICall } from './redux/users/userActions'
 
-function UsersContainer ({ userData, fetchUsers, userRegistrationAPICall }) {
+function UsersContainer ({ userData, loginUserAPICall, userRegistrationAPICall }) {
   const obj={
     userName: "ABCDEFFG",
     password: "Year@2022",
@@ -38,7 +38,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchUsers()),
+    loginUserAPICall: () => dispatch(loginUserAPICall()),
     userRegistrationAPICall:(obj)=>dispatch(userRegistrationAPICall(obj))
 
   }

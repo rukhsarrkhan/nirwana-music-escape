@@ -47,16 +47,18 @@ const getSongsById = async (id) => {
 };
 
 const uploadFile = async (file, fileName) => {
-  console.log("fileName", fileName);
-  var fileStream = fs.createReadStream(file);
-  fileStream.on('error', function (err) {
-    console.log('File Error', err);
-    // TO DO: return error
-  });
+  console.log("file", file);
+
+  // console.log("fileName", fileName);
+  // var fileStream = fs.createReadStream(file);
+  // fileStream.on('error', function (err) {
+  //   console.log('File Error', err);
+  //   // TO DO: return error
+  // });
   const params = {
     Bucket: 'nivana-music', // pass your bucket name
     Key: fileName + ".mp3", // file will be saved as testBucket/contacts.csv
-    Body: fileStream
+    Body: file
   };
   // call S3 to retrieve upload file to specified bucket
   return s3.upload(params, function (err, data) {

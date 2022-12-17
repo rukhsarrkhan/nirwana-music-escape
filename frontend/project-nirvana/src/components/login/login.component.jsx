@@ -1,97 +1,123 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
+
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { loginUserAPICall, userRegistrationAPICall } from '../../redux/users/userActions';
 
-
-// import { useNavigate } from "react-router-dom";
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-// import coursesPage from './apiCall';
-
-// import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+// import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 
 import './login.css';
 
+const LoginComp = ({ userData, loginUserAPICall }) => {
 
-// const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  let navigate = useNavigate();
 
 
-class LoginComp extends React.Component {
-  constructor(props) {
-    super(props);
+  useEffect(() => {
 
-    this.state = {
-      email: '',
-      password: ''
-    };
-  }
-  //   coursesPage = () => {
-  //     navigate.push("/")
-  // }
-  handleSubmit = async event => {
+    console.log("userData-------", userData);
+    if (userData.user.data && userData.user.userLoggedIn == true) {
+      navigate("/");
+    } else if (userData.user.error) {
+      setErrorMessage('Please input correct username and password');
+    }
+  }, [userData]);
+
+  const handleSubmit = async event => {
     event.preventDefault();
-
-    const { email, password } = this.state;
-
-    console.log("email, password", email, password);
     // try {
     //   await auth.signInWithEmailAndPassword(email, password);
     //   this.setState({ email: '', password: '' });
     // } catch (error) {
     //   console.log(error); 
     // }
-    try {
-      let resp = await axios.post('http://localhost:3000/login', {
-        userName: email,
-        password: password
-      });
-      console.log("resp", resp);
-      // coursesPage()
-    } catch (error) {
-      console.log(error);
+
+    const loginObj = {
+      userName: email,
+      password: password
+    };
+    loginUserAPICall(loginObj);
+    // try {
+    //   let resp = await axios.post('http://localhost:3000/login', {
+    //     userName: email,
+    //     password: password
+    //   });
+    //   console.log("resp", resp);
+    //   navigate("/");
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
+
+  const handleChange = event => {
+    const { value, name } = event.target;
+    if (name == 'email') {
+      setEmail(value);
+    } else if (name == 'password') {
+      setPassword(value);
     }
   };
+  return (
+    <div className='Auth-form-container'>
+      <h1>Sign in with your email and password</h1>
+      <form onSubmit={handleSubmit} className='Auth-form'>
+        <div className="Auth-form-content">
 
-  handleChange = event => {
-    const { value, name } = event.target;
-
-    this.setState({ [name]: value });
-  };
-
-  render() {
-    return (
-      <div className='Auth-form-container'>
-        <h1>Sign in with your email and password</h1>
-        <form onSubmit={this.handleSubmit} className='Auth-form'>
-          <div className="Auth-form-content">
-
-            <FormInput
-              name='email'
-              type='email'
-              handleChange={this.handleChange}
-              value={this.state.email}
-              label='Enter User Name'
-              required
-            />
-            <FormInput
-              name='password'
-              type='password'
-              value={this.state.password}
-              handleChange={this.handleChange}
-              label='Enter Password'
-              required
-            />
-            <div className='buttons'>
-              <CustomButton type='submit'> Sign in </CustomButton>
-              {/* <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+          <FormInput
+            name='email'
+            type='email'
+            handleChange={handleChange}
+            value={email}
+            label='Enter User Name'
+            required
+          />
+          <FormInput
+            name='password'
+            type='password'
+            value={password}
+            handleChange={handleChange}
+            label='Enter Password'
+            required
+          />
+          {errorMessage && (
+            <p className="error"> {errorMessage} </p>
+          )}
+          <div className='buttons'>
+            <CustomButton type='submit'> Sign in </CustomButton>
+            {/* <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
               Sign in with Google
             </CustomButton> */}
-            </div>
           </div>
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+      </form>
+    </div>
+  );
 
-export default LoginComp;
+};
+
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    userData: state
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loginUserAPICall: (obj) => dispatch(loginUserAPICall(obj)),
+    userRegistrationAPICall: (obj) => dispatch(userRegistrationAPICall(obj))
+
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginComp);
