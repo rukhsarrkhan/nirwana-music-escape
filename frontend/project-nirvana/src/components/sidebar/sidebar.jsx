@@ -22,14 +22,14 @@ const styles = {
 
 const NavigationSidebar = () => (
   <List className="navbar">
-    <img
+    {/* <img
         className="logo"
         src="https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg"
         alt=""
-      />
+      /> */}
     <NavItem option='Home' Icon={HomeIcon}/>
     <NavItem option = "Search" Icon={SearchIcon} />
-    <NavItem option = 'Your Library' Icon={LibraryMusicIcon}/>
+    <NavItem option = 'Your Playlist' Icon={LibraryMusicIcon}/>
   </List>
 );
 

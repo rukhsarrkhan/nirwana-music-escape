@@ -6,7 +6,7 @@ const data = require("../data");
 const {protect} = require('../middleware/authJwt')
 const usersData = data.usersData;
 const asyncHandler = require('express-async-handler')
-const { isProperString, isPasswordValid } = require("../helpers");
+const { isProperString, isPasswordValid, validateUsernameNPassword } = require("../helpers");
 
 
 const protectedArea= asyncHandler(async (req, res) => {
@@ -25,6 +25,15 @@ router
     res.render("userRegister", { title: "Register" });
   })
   .post(async (req, res) => {
+    try {
+      let userName = req.body.userName;
+      let password = req.body.password
+      validateUsernameNPassword(userName, password);
+    } catch (e) {
+      return res
+        .status(400)
+        .render("userRegister", { title: "Register", error: e });
+    }
     try{
       let response = await usersData.createUser(req.body);
       return res.status(201).json(response);
@@ -37,6 +46,13 @@ router.route("/login").post(async (req, res) => {
  
   let userName = req.body.userName;
   let password = req.body.password;
+  try {
+    validateUsernameNPassword(userName, password);
+  } catch (e) {
+    return res
+      .status(400)
+      .render("userLogin", { title: "Login", error: e });
+  }
   try {
     let response = await usersData.checkUser(userName, password);
     return res.status(200).json(response)

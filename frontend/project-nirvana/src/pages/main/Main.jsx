@@ -6,29 +6,30 @@ import Header from "../../components/Header/Header";
 import { Routes, Router, Route, Link } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import Homepage from "../Homepage/Homepage";
-import SignInAndSignUpPage from "../sign-in-and-sign-up/sign-in-and-sign-up.component";
 import CreatePlaylist from "../add-playlist/CreatePlaylist";
+import LoginPage from "../login/login-page.component";
+import RegisterPage from "../register/register-page.component";
 
+const loggedIn = false;
 const drawerWidth = 250;
 const Main = (props) => {
   return (
     <div className="main">
+      
       <div style={{ display: "flex" }}>
-        <ResponsiveDrawer style={{ backgroundColor: "#040404" }} />
+        { loggedIn && (<ResponsiveDrawer style={{ backgroundColor: "#040404" }} />)}
 
         <div className="body-container">
-          <Header />
+        { loggedIn &&  (<Header />)}
           <Routes>
             <Route path="/" element={<Homepage />}></Route>
-            <Route path="/signin" element={<SignInAndSignUpPage />}></Route>
+            <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/register" element={<RegisterPage />}></Route>
             <Route path="/create-playlist" element={<CreatePlaylist />}></Route>
           </Routes>
         </div>
       </div>
-      {/* <Route exact path='/' element={< Home />}></Route>
-        <Route exact path='/about' element={< About />}></Route>
-        <Route exact path='/contact' element={< Contact />}></Route> */}
-      <Footer />
+      { loggedIn &&  (<Footer />)}
     </div>
   );
 };

@@ -95,16 +95,66 @@ const uploadSong = async (obj) => {
   return newSong;
 };
 
-const fetchSongs = async () => {
+
+const seedSongs = async (obj) => {
+  console.log("obj", obj);
+  // const s3ReturnObj = await uploadFile(obj.song, obj.songName);
+  // console.log("s3ReturnObj", s3ReturnObj);
+  const today = moment(new Date()).format("MM/DD/YYYY");
+
+ // const songUrl = "https://" + "nivana-music" + ".s3.amazonaws.com/" + obj.songName + ".mp3";
+
+  let newSong = {
+    songName: obj.songName,
+    songUrl: obj.songUrl,
+    genre: obj.genre,
+    artist: obj.artist,
+    createdAt: today
+  };
+  const songsCollection = await songs();
+
+  const insertInfo = await songsCollection.insertOne(newSong);
+  if (!insertInfo.acknowledged || !insertInfo.insertedId) {
+    throw 'Could not add movie';
+  }
+  const newId = insertInfo.insertedId.toString();
+  newSong._id = newId;
+  return newSong;
+};
+
+const fetchSongs = async (sort_by) => {
+  const songsCollection = await songs();
+  let songList = await songsCollection.find({}).sort({sort_by:1}).toArray();
+  if (!songList) {
+    throw 'Could not get all songs';
+  }
+  const returndata={ }
+  console.log(sort_by)
+  if(typeof sort_by==="undefined") return songList
+  songList.forEach(song => {
+    song._id = song._id.toString();
+    if(returndata[song[sort_by]]===undefined) returndata[song[sort_by]]=[]
+    returndata[song[sort_by]].push(song)
+  });
+
+  return returndata;
+};
+
+const fetchSongForPlaylistForm = async() => {
   const songsCollection = await songs();
   let songList = await songsCollection.find({}).toArray();
   if (!songList) {
     throw 'Could not get all songs';
   }
+  const returndata=[]
+
   songList.forEach(song => {
     song._id = song._id.toString();
+    let newSong = {label: song.songName, value: song._id}
+    returndata.push(newSong)
   });
-  return songList;
+
+return returndata;
 };
 
 const generatePresignedURL = async (path) => {
@@ -184,7 +234,9 @@ module.exports = {
   fetchSongs,
   deleteSong,
   fetchSong,
-  getSongsById
+  getSongsById,
+  seedSongs,
+  fetchSongForPlaylistForm
 };
 
 // add validations
