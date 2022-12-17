@@ -3,6 +3,7 @@ const router = express.Router();
 const helpers = require("../helpers");
 const data = require("../data");
 const songsData = data.songsData;
+const {validatesongs} = require("../helpers");
 
 router
   .route("/")
@@ -17,6 +18,17 @@ router
     }
   })
   .post(async (req, res) => {
+    console.log(req.body)
+    try {
+      let songName= req.body.songName;
+      let genre= req.body.genre;
+      let artist= req.body.artist;
+      validatesongs(songName,genre,artist);
+      // console.log(songName)
+    } catch (e) {
+// console.log(e)
+      return res.status(400).json(e);//using send will crash the code in edge case
+    }
     try{
       // TO DO: ADD re.body field validation in another try cath
 
@@ -43,6 +55,16 @@ router
 router
   .route("/:id")
   .get(async (req, res) => {
+    // try {
+    //   validateId(req.params.id);
+    // } catch (e) {
+    //   return res.status(400).json("invalid id");
+    // }
+    inputStringValidation(id, "id");
+  id = id.trim();
+  if (!ObjectId.isValid(id)) {
+    throw 'Invalid object ID';
+  }
     try{
       console.log("here")
       // TO DO: ADD id validation in another try cath
@@ -55,6 +77,16 @@ router
     }
   })
   .delete(async (req, res) => {
+    // try {
+    //   validateId(req.params.id);
+    // } catch (e) {
+    //   return res.status(400).json("invalid id");
+    // }
+    inputStringValidation(id, "id");
+  id = id.trim();
+  if (!ObjectId.isValid(id)) {
+    throw 'Invalid object ID';
+  }
     try{
     // TO DO: ADD id fiekld validation in another try cath
 

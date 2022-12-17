@@ -15,6 +15,11 @@ const playlistData = data.playlistsData;
   router
     .route("/:userId")
     .get(async (req, res) => {
+      try {
+        validateId(req.params.userId);
+      } catch (e) {
+        return res.status(400).json("invalid id");
+      }
       try{
         // TO DO: ADD userId fiekld validation in another try cath
 
@@ -32,6 +37,11 @@ const playlistData = data.playlistsData;
     .post(async (req, res) => {
         
         const playlistPost = req.body
+        try {
+          validateId(req.params.userId);
+        } catch (e) {
+          return res.status(400).json("invalid id");
+        }
         try{
             //helper
             // TO DO: ADD req.params.userId, req.body fiekld validation in another try cath
@@ -44,8 +54,14 @@ const playlistData = data.playlistsData;
         });
 router
     .route('/playlist/:playlistId')
+    
     .get(async (req, res) => {
       //const playlistPutData = req.body;
+      try {
+        validateId(req.params.playlistId);
+      } catch (e) {
+        return res.status(400).json("invalid id");
+      }
       // TO DO: Add playlistId validation in another try catch 
       try{
         let response = await playlistData.getPlaylist(req.params.playlistId);
@@ -56,6 +72,16 @@ router
     })
     .put(async (req, res) => {
       //const playlistPutData = req.body;
+      // try {
+      //   validateId(req.params.playlistId);
+      // } catch (e) {
+      //   return res.status(400).json("invalid id");
+      // }
+      inputStringValidation(req.paramsplaylistId);
+  id = id.trim();
+  if (!ObjectId.isValid(playlistId)) {
+    throw 'Invalid object ID';
+  }
             // TO DO: Add req.params.playlistId, req.body validation in another try catch 
       try{
         let response = await playlistData.modifyPlaylist(req.params.playlistId, req.body);
@@ -65,6 +91,16 @@ router
     }
     })
     .delete(async (req, res) => {
+      // try {
+      //   validateId(req.params.playlistId);
+      // } catch (e) {
+      //   return res.status(400).json("invalid id");
+      // }
+      inputStringValidation(id, "id");
+  id = id.trim();
+  if (!ObjectId.isValid(id)) {
+    throw 'Invalid object ID';
+  }
       try{
                     // TO DO: Add req.params.playlistId in another try catch 
         let response = await playlistData.deletePlaylist(req.params.playlistId);
@@ -77,6 +113,22 @@ router
 router
     .route('/playlist/:playlistId/songs/:songId')
     .post(async (req, res) => { 
+      // try {
+      //   validateId(req.params.playlistId);
+      // } catch (e) {
+      //   return res.status(400).json("invalid id");
+      // }
+      inputStringValidation(id, "id");
+  id = id.trim();
+  if (!ObjectId.isValid(id)) {
+    throw 'Invalid object ID';
+  }
+      try {
+        validateId(req.params.songId);
+      } catch (e) {
+        return res.status(400).json("invalid id");
+      }
+
       try{
                     // TO DO: Add req.params.playlistId, req.body validation in another try catch 
           let response = await playlistData.addSongs(req.params.playlistId, req.params.songId);
@@ -87,6 +139,16 @@ router
       })
 
     .delete(async (req, res) => {
+      try {
+        validateId(req.params.playlistId);
+      } catch (e) {
+        return res.status(400).json("invalid id");
+      }
+      try {
+        validateId(req.params.songId);
+      } catch (e) {
+        return res.status(400).json("invalid id");
+      }
       try{
                     // TO DO: Add req.params.playlistId, req.body validation in another try catch 
         let response = await playlistData.deleteSongs(req.params.playlistId, req.params.songId);

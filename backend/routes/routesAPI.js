@@ -6,7 +6,7 @@ const data = require("../data");
 const {protect} = require('../middleware/authJwt')
 const usersData = data.usersData;
 const asyncHandler = require('express-async-handler')
-const { isProperString, isPasswordValid, validateUsernameNPassword } = require("../helpers");
+const { isProperString, isPasswordValid, validateUsernameNPassword,validateCheckUser } = require("../helpers");
 
 
 const protectedArea= asyncHandler(async (req, res) => {
@@ -26,12 +26,15 @@ router
   })
   .post(async (req, res) => {
     try {
-      let userName = req.body.userName;
-      let password = req.body.password
-      validateUsernameNPassword(userName, password);
+      let userName = req.body.username;
+      let password = req.body.password;
+      let phoneNumber = req.body.phoneNumber;
+      let firstName = req.body.firstName;
+      let lastName = req.body.lastName;
+      validateUsernameNPassword(userName, password, phoneNumber,firstName,lastName);
     } catch (e) {
 
-      res.status(400).json(e);//using send will crash the code in edge case
+      return res.status(400).json(e);//using send will crash the code in edge case
     }
     try{
       let response = await usersData.createUser(req.body);
@@ -41,20 +44,23 @@ router
     }
   });
 
-router.route("/login").post(async (req, res) => {
- 
-  let userName = req.body.userName;
-  let password = req.body.password;
+router.route("/login")
+.post(async (req, res) => {
+ console.log(req.body)
+ let username = req.body.userName;
+ let password = req.body.password;
   try {
-    validateUsernameNPassword(userName, password);
+    validateCheckUser(username, password);
+    console.log(username,password)
   } catch (e) {
     console.log("e",e)
     return res.status(400).json(e);//using send will crash the code in edge case
   }
   try {
-    let response = await usersData.checkUser(userName, password);
+    let response = await usersData.checkUser(username, password);
     return res.status(200).json(response)
   } catch (error) {
+    console.log(error)
     return res.status(400).json(error);
   }
 });

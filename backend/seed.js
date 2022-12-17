@@ -64,7 +64,7 @@ async function main() {
     {
       _id: "639b731404a2e5746d5afec5",
       songName: "Beauty.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Beauty.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Beauty.mp3",
       genre: "romance",
       artist: "eyeroze",
       createdAt: "12/15/2022"
@@ -72,7 +72,7 @@ async function main() {
     {
       _id: "639b9d515f95f8d7c3f9dda7",
       songName: "Can't Take My Eyes off You.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Can't Take My Eyes off You.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Can't Take My Eyes off You.mp3",
       genre: "romance",
       artist: "craymer",
       createdAt: "12/15/2022"
@@ -95,7 +95,7 @@ async function main() {
     {
       _id: "639b74e204a2e5746d5afec8",
       songName: "Oblivion.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Oblivion.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Oblivion.mp3",
       genre: "hip hop",
       artist: "Rufi-O",
       createdAt: "12/15/2022"
@@ -103,7 +103,7 @@ async function main() {
     {
       _id: "639b9cc75f95f8d7c3f9dda6",
       songName: "Happiness.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Happiness.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Happiness.mp3",
       genre: "hip hop",
       artist: "eyeroze",
       createdAt: "12/15/2022"
@@ -111,7 +111,7 @@ async function main() {
     {
       _id: "639b9da85f95f8d7c3f9dda8",
       songName: "infinity.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/infinity.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/infinity.mp3",
       genre: "hip hop",
       artist: "Oatmello",
       createdAt: "12/15/2022"
@@ -125,7 +125,7 @@ async function main() {
     {
       _id: "639b71ec04a2e5746d5afec2",
       songName: "5 32pm.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/5 32pm.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/5 32pm.mp3",
       genre: "opera",
       artist: "The Deli",
       createdAt: "12/15/2022"
@@ -133,7 +133,7 @@ async function main() {
     {
       _id: "639b740d04a2e5746d5afec6",
       songName: "Day in Paris.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Day in Paris.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Day in Paris.mp3",
       genre: "opera",
       artist: "Llusion",
       createdAt: "12/15/2022"
@@ -141,7 +141,7 @@ async function main() {
     {
       _id: "639b9de75f95f8d7c3f9dda9",
       songName: "drift....mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/drift....mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/drift....mp3",
       genre: "opera",
       artist: "junyii",
       createdAt: "12/15/2022"
@@ -149,7 +149,7 @@ async function main() {
     {
       _id: "639b9e235f95f8d7c3f9ddaa",
       songName: "nagashi.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/nagashi.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/nagashi.mp3",
       genre: "opera",
       artist: "idealism",
       createdAt: "12/15/2022"
@@ -163,7 +163,7 @@ async function main() {
     {
       _id: "639b727504a2e5746d5afec3",
       songName: "Backpack City.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Backpack City.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Backpack City.mp3",
       genre: "k-pop",
       artist: "Flovry",
       createdAt: "12/15/2022"
@@ -171,7 +171,7 @@ async function main() {
     {
       _id: "639b748a04a2e5746d5afec7",
       songName: "Night Walk.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Night Walk.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Night Walk.mp3",
       genre: "k-pop",
       artist: "xander",
       createdAt: "12/15/2022"
@@ -179,7 +179,7 @@ async function main() {
     {
       _id: "639b9e625f95f8d7c3f9ddab",
       songName: "my new love.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/my new love.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/my new love.mp3",
       genre: "k-pop",
       artist: "Elijah Woh",
       createdAt: "12/15/2022"
@@ -187,7 +187,7 @@ async function main() {
     {
       _id: "639b9ea25f95f8d7c3f9ddac",
       songName: "Your Voice.mp3",
-      songUrl: "https://nivana-music.s3.amazonaws.com/Your Voice.mp3.mp3",
+      songUrl: "https://nivana-music.s3.amazonaws.com/Your Voice.mp3",
       genre: "k-pop",
       artist: "Monty Datta",
       createdAt: "12/15/2022"

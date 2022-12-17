@@ -34,17 +34,19 @@ const createUser = async (obj) => {
 };
 
 const checkUser = async (username, password) => {
-  if (
-    !isProperString(username) ||
-    !isProperString(password) ||
-    username.length < 4 ||
-    password.length < 6
-  )
-    throw "Invalid username or password. ";
-  isPasswordValid(password);
+  // if (
+  //   !isProperString(username) ||
+  //   !isProperString(password) ||
+  //   username.length < 4 ||
+  //   password.length < 6
+  // )
+  //   throw "Invalid username or password. ";
+  // isPasswordValid(password);
+  console.log("now user",username)
   username = username.trim().toLowerCase();
   const users = await userCollection();
   const user = await users.findOne({ userName: username });
+  console.log("yser",user)
   if (!user) throw "Invalid Username or Password";
   const authenticated = await bcrypt.compare(password, user.password);
   user['token'] = generateToken(user._id);
