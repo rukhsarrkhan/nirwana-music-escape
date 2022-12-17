@@ -1,14 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const userCollection = mongoCollections.user_collection;
-<<<<<<< HEAD
 const validation = require('../helpers')
-=======
-// const bcrypt = require("bcrypt");
-// const saltRounds = 8;
-//const { isProperString, isPasswordValid, checkUserObject } = require("../helpers");
-const validation = require('../helpers')
-const jwt = require("jsonwebtoken");
->>>>>>> 3ea2681 (add features for playlist: delete and update)
 const { ObjectId } = require("mongodb");
 const songsData = require('./songs');
 
@@ -112,12 +104,9 @@ const createPlaylist = async (userId, obj) => {
 
 
 const getAllPlaylist = async (userId) => {
-<<<<<<< HEAD
-=======
     //helper
     userId = userId.trim();
     validation.checkObjectId(userId)
->>>>>>> 3ea2681 (add features for playlist: delete and update)
 
     userId = userId.trim();
     validation.validateId(userId)
@@ -174,18 +163,14 @@ const modifyPlaylist = async (playlistId, obj) => {
     if (!updateInfo.matchedCount&&!updateInfo.modifiedCount){
         throw 'could not update playlist successfully'
     }
-<<<<<<< HEAD
+
     const playlist = await getPlaylist(playlistId)
-=======
-    const playlist = getPlaylist(playlistId)
->>>>>>> 3ea2681 (add features for playlist: delete and update)
     return playlist
   
 }
 const getPlaylist = async (playlistId) => {
       validation.checkObjectId(playlistId)
       const users = await userCollection();
-<<<<<<< HEAD
       const user = await users
       .findOne({
          'playlist._id': ObjectId(playlistId)
@@ -208,25 +193,6 @@ const getPlaylist = async (playlistId) => {
         }
       }    
       return result
-=======
-      const user = await users.findOne({
-         'playlist._id': ObjectId(playlistId)
-        },
-        {
-          'playlist.$':1
-        }
-         );
-      // locate playlists by nested object reviews
-      if (user == null) throw 'error: playlist not found';
-      let playlist = {};
-      for (let i = 0; i < user.playlist.length; i++) {
-        if (user.playlist[i]._id.toString() == playlistId) {
-        user.playlist[i]._id = user.playlist[i]._id.toString();
-        playlist = user.playlist[i]
-        }
-      }
-      return playlist;
->>>>>>> 3ea2681 (add features for playlist: delete and update)
     };
 
 module.exports = {
@@ -235,12 +201,8 @@ module.exports = {
     getAllPlaylist,
     deletePlaylist,
     modifyPlaylist,
-<<<<<<< HEAD
     getPlaylist,
     addSongs,
     deleteSongs,
     deleteSongsAcros
-=======
-    getPlaylist
->>>>>>> 3ea2681 (add features for playlist: delete and update)
 }
