@@ -12,6 +12,7 @@ import CreatePlaylist from "../add-playlist/CreatePlaylist";
 import LoginPage from "../login/login-page.component";
 import RegisterPage from "../register/register-page.component";
 import MusicPlayer from "../../components/music-player/MusicPlayer";
+<<<<<<< HEAD
 import AdminPage from "../admin-page/admin-page.component";
 import AdminPortal from "../admin-portal/admin-portal.component";
 
@@ -28,6 +29,12 @@ const Main = ({ userData }) => {
     }
   }, [userData]);
 
+=======
+ 
+const loggedIn = false;
+const Main = (props) => {
+  console.log('rerender')
+>>>>>>> 3fbbb17 (feat: implemented music player functionality)
   return (
     <div className="main">
       
@@ -47,7 +54,11 @@ const Main = ({ userData }) => {
           </Routes>
         </div>
       </div>
+<<<<<<< HEAD
       {isLoggedIn && (<MusicPlayer />)}
+=======
+      <MusicPlayer />
+>>>>>>> 3fbbb17 (feat: implemented music player functionality)
     </div>
   );
 };
