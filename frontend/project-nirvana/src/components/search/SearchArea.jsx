@@ -1,19 +1,27 @@
 import {React, useState} from 'react'
 import './search.css'
 import SearchIcon from '@mui/icons-material/Search';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import _debounce from 'lodash/debounce'
 import {fetchSongs, fetchSongsAPICall} from '../../redux/generic/action'
-const SearchArea = ({fetchSongs, fetchSongsAPICall}) => {
+import {makeSearch} from '../../redux/search/searchAction'
+const SearchArea = ({makeSearch}) => {
   const [searchInput, setSearchInput] = useState("");
-  //const debounceApiCall = useCallback(_debounce(fetchSongsAPICall(), 10000),[])
-  const [debouncedCallApi] = useState(() => _debounce(fetchSongsAPICall, 1000));
+ 
+  const [debouncedCallApi] = useState(() => _debounce( makeSearch, 500));
   function handleChange(event){
-    console.log(searchInput)
+    // if(event.target.value.trim().length==0) return
     setSearchInput(event.target.value)
-    debouncedCallApi()
-    //debounceApiCall(searchInput)
+    console.log(event.target.value)
+   
+  }
+  useEffect(() => {
+    //makeSearch(searchInput)
+    debouncedCallApi(searchInput)
+  }, [searchInput])
+  function handleSearchCall(){
+    (makeSearch(searchInput))
   }
   return (
     <div className="search-area">
@@ -30,14 +38,12 @@ const SearchArea = ({fetchSongs, fetchSongsAPICall}) => {
 
 const mapStateToProps = state => {
   return {
-    userData: state
+    searchData: state
   }
 }
-
 const mapDispatchToProps = dispatch => {
   return {
-    fetchSongsAPICall:()=>dispatch(fetchSongsAPICall())
-
+    makeSearch:(data)=>dispatch(makeSearch(data))
   }
 }
 

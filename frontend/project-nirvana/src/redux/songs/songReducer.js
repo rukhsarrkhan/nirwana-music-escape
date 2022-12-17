@@ -1,7 +1,6 @@
 import { FETCH_SONG_TO_PLAY_SUCCESS, FETCH_SONG_TO_PLAY_FALIURE, FETCH_SONG_TO_PLAY} from "./songActionTypes"
 
 const initialState = {
-    playerSong:[]
 }
 export const playerReducer = (state=(initialState), action)=>{
     switch(action.type){

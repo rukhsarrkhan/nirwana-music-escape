@@ -1,15 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useStateRef } from 'react';
 import axios from 'axios'
 import {fetchSongToPlayAPICall} from '../../redux/songs/songActions'
 import { connect } from 'react-redux';
 import './music-player.css'
 const MusicPlayer = ({playerSong}) => {
   const audioRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true   );
   const [repeat, setRepeat] = useState(false);
   const [volume, setVolume] = useState(1);
   const [musicObj, setMusicObj] = useState("");
-  console.log(playerSong)
+  //console.log(playerSong)
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -30,7 +30,11 @@ const MusicPlayer = ({playerSong}) => {
     audioRef.current.volume = event.target.value;
   };
 
- 
+ const handlePlay=()=>{
+  if (typeof playerSong !== "undefined" && Object.keys(playerSong).length > 0) {
+    setMusicObj(playerSong.playerSong)
+  }
+ }
 //   useEffect(() => {
 //     testLink()
 //     // if(typeof playerSong !="undefined") 
@@ -54,10 +58,12 @@ const MusicPlayer = ({playerSong}) => {
     //       }
     // }
     useEffect(() => {
-        setMusicObj(playerSong.playerSong)
-        if(Object.keys(playerSong).length>0) 
-        togglePlay()
-        }, [playerSong])
+        handlePlay()
+    }, [playerSong]);
+    useEffect(() => {
+      togglePlay()
+  }, [musicObj]);
+  
   return (
     <div className="music-player">
       <audio src={musicObj} ref={audioRef} />
@@ -97,4 +103,4 @@ const mapStateToProps = state => {
   export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(React.memo(MusicPlayer))
+  )((MusicPlayer))
