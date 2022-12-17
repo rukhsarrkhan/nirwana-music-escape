@@ -19,7 +19,7 @@ const createPlaylistObject = async(obj)=>{
 const addSongs = async(playlistId, songId)=>{
     validation.checkObjectId(playlistId);
     validation.checkObjectId(songId);
-    let song = await songsData.getSongsById(songId)
+//    let song = await songsData.getSongsById(songId)
     const users = await userCollection();
     const user = await users.findOne({ 
       "playlist._id": new ObjectId(playlistId)
@@ -31,7 +31,7 @@ const addSongs = async(playlistId, songId)=>{
         "playlist._id":new ObjectId(playlistId)
       },
       {$addToSet:{
-        "playlist.$.songs":song
+        "playlist.$.songs":songId
       }
       }
     )
@@ -51,7 +51,7 @@ const deleteSongs = async(playlistId, songId)=>{
         "playlist._id":new ObjectId(playlistId)
       },
       {$pull:{
-        "playlist.$.songs":{"_id":songId}
+        "playlist.$.songs":songId
       }
       }
 )
@@ -59,8 +59,30 @@ const deleteSongs = async(playlistId, songId)=>{
     if (!deleteInfo.matchedCount&&!deleteInfo.modifiedCount){
         throw 'could not delete songs successfully'
     }
-    const playlist = getPlaylist(playlistId)
-    return playlist
+    const playlist = await getPlaylist(playlistId)
+    return playlist['songs']
+
+}
+
+const deleteSongsAcros = async(songId)=>{
+    validation.checkObjectId(songId);
+    const users = await userCollection();
+    const deleteInfo = await users
+        .updateMany(
+            {
+                //"playlist._id":new ObjectId(playlistId)
+                "playlist.songs":songId
+            },
+            {$pull:{
+                    //"playlist.$.songs":{"_id":songId}
+                    "playlist.$.songs":songId
+                }
+            }
+        )
+    if (!deleteInfo.matchedCount&&!deleteInfo.modifiedCount){
+        throw 'could not delete songs successfully'
+    }
+    return {deletion: true, songId}
 
 }
 const createPlaylist = async (userId, obj) => {
@@ -77,7 +99,7 @@ const createPlaylist = async (userId, obj) => {
         {$addToSet: {playlist: playlist}}
     );
     if (updateInfo.modifiedCount === 0) throw " Could not add playlist successfully "
-    return user['playlist'];
+    return playlist;
     };
 
 
@@ -138,7 +160,7 @@ const modifyPlaylist = async (playlistId, obj) => {
     if (!updateInfo.matchedCount&&!updateInfo.modifiedCount){
         throw 'could not update playlist successfully'
     }
-    const playlist = getPlaylist(playlistId)
+    const playlist = await getPlaylist(playlistId)
     return playlist
   
 }
@@ -177,5 +199,6 @@ module.exports = {
     modifyPlaylist,
     getPlaylist,
     addSongs,
-    deleteSongs
+    deleteSongs,
+    deleteSongsAcros
 }

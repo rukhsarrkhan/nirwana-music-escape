@@ -20,7 +20,7 @@ router
     }
     try {
       let playlistGet = await playlistData.getAllPlaylist(req.params.userId);
-      res.json(playlistGet);
+      res.status(200).json(playlistGet);
     } catch (e) {
       return res.status(404).json({ error: e });
     }
@@ -95,5 +95,18 @@ router
       res.status(400).json({ error: e });
     }
   });
+
+router
+    .route('/songs/:songId')
+    .delete(async (req, res) => {
+        try {
+            let response = await playlistData.deleteSongsAcros(
+                req.params.songId
+            );
+            return res.status(201).json(response);
+        } catch (e) {
+            res.status(400).json({ error: e });
+        }
+    });
 
 module.exports = router;
