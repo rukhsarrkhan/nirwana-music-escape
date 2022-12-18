@@ -23,22 +23,31 @@ const playlistData = data.playlistsData;
       }
       try {
         let playlistGet = await playlistData.getAllPlaylist(req.params.userId);
-        res.json(playlistGet)
+        return res.status(200).json(playlistGet)
       }catch(e){
        return res.status(404).json({ error:e })
       }
     })
-    .post(async (req, res) => {
+    .post(async (req, res) => { 
+        const postData = req.body
+        try {
+            helpers.checkPlistObj(postData)
+        }catch(e){
+          return res.status(400).json({ error:e })
+        }
         try {
           helpers.validateId(req.params.userId);
         } catch (e) {
-          return res.status(400).json("invalid id");
+          return res.status(400).json({ error:e });
         }
         try{
-            //helper
-            // TO DO: ADD req.params.userId, req.body fiekld validation in another try cath
+            let response = await playlistData.createPlaylist(
+              req.params.userId,
+              req.body
+            )
+            return res.status(201).json(response)
           } catch (e) {
-            return res.status(400).json("invalid id");
+            return res.status(400).json({ error:e });
           }
         })
 router

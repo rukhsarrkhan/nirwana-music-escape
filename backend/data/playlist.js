@@ -107,13 +107,13 @@ const getAllPlaylist = async (userId) => {
 
     userId = userId.trim();
     validation.validateId(userId)
-
     const playlists = await userCollection();
     const allPlaylist = await playlists.find(
         {_id : ObjectId(userId)}, 
         {projection:{playlist:1, _id:0}}).toArray();
-
-    if(allPlaylist[0].playlist.length == 0) throw " No playlist yet "
+    if(allPlaylist.length == 0) throw " No playlist under this id "
+    //if(allPlaylist[0].playlist.length == 0) throw " No playlist yet "
+    //notice if user exist but no playlist situation
     return allPlaylist[0].playlist;
 }
 
