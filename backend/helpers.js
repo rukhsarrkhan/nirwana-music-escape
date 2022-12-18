@@ -114,11 +114,13 @@ function checkPlistName(str) {
 function checkPlistObj(obj){
   let plistName = obj.playlistName
   let plistDesc = obj.description
-  //let plistsong = obj.songs
+  let plistsong = obj.songs
+  if(!plistName) throw "must provide playlist name attribute"
   checkPlistName(plistName)
-  isProperString(plistDesc)
-  //isProperArray(plistsong)
-
+  if(!plistDesc) throw "must provide description attribute"
+  if(!isProperString(plistDesc)) throw "description should be string"
+  if (!plistsong) throw "must provide songs attribute" 
+  if(!isProperArray(plistsong)||!plistsong) throw "song attribute must be an array"
 }
 
 const checkRuntime = (runtime) => {
@@ -299,6 +301,15 @@ const inputStringValidation = (input, inputString) => {
   }
 };
 
+const validateId=(id)=>{
+  if (!id) throw "You must provide an id to search for";
+  if (typeof id !== "string") throw "Id must be a string";
+  if (id.trim().length === 0)
+    throw "Id cannot be an empty string or just spaces";
+  id = id.trim();
+  if (!ObjectId.isValid(id)) throw "invalid object ID";
+};
+
 module.exports = {
   isValidObject,
   isProperString,
@@ -318,6 +329,7 @@ module.exports = {
   checkPlistName,
   checkObjectId,
   checkPlistObj,
-inputStringValidation 
+  inputStringValidation,
+  validateId
 };
 

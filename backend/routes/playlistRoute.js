@@ -16,9 +16,7 @@ const playlistData = data.playlistsData;
     .route("/:userId")
     .get(async (req, res) => {
       try{
-        // TO DO: ADD userId fiekld validation in another try cath
-
-        //helper
+        helpers.validateId(req.params.userId)
       }catch(e){
         return res.status(400).json({ error:e });
       }
@@ -33,9 +31,16 @@ const playlistData = data.playlistsData;
         
         const playlistPost = req.body
         try{
-            //helper
-            // TO DO: ADD req.params.userId, req.body fiekld validation in another try cath
-
+          helpers.validateId(req.params.userId)
+        }catch(e){
+          return res.status(400).json({ error:e });
+        }
+        try{
+          helpers.checkPlistObj(playlistPost)
+        }catch(e){
+          return res.status(400).json({ error:e });
+        }
+        try{
             let response = await playlistData.createPlaylist(req.params.userId, req.body);
             return res.status(201).json(response)
         } catch (e) {
@@ -45,8 +50,11 @@ const playlistData = data.playlistsData;
 router
     .route('/playlist/:playlistId')
     .get(async (req, res) => {
-      //const playlistPutData = req.body;
-      // TO DO: Add playlistId validation in another try catch 
+      try{
+        helpers.validateId(req.params.playlistId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
       try{
         let response = await playlistData.getPlaylist(req.params.playlistId);
         return res.status(200).json(response)
@@ -55,8 +63,17 @@ router
       }
     })
     .put(async (req, res) => {
-      //const playlistPutData = req.body;
-            // TO DO: Add req.params.playlistId, req.body validation in another try catch 
+      const playlistPut = req.body
+      try{
+        helpers.validateId(req.params.playlistId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+      try{
+        helpers.checkPlistObj(playlistPut)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
       try{
         let response = await playlistData.modifyPlaylist(req.params.playlistId, req.body);
         return res.status(200).json(response)
@@ -66,7 +83,12 @@ router
     })
     .delete(async (req, res) => {
       try{
-                    // TO DO: Add req.params.playlistId in another try catch 
+        helpers.validateId(req.params.playlistId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+      try{
+
         let response = await playlistData.deletePlaylist(req.params.playlistId);
         return res.status(200).json(response)
       }catch (e) {
@@ -76,9 +98,18 @@ router
 
 router
     .route('/playlist/:playlistId/songs/:songId')
-    .post(async (req, res) => { 
+    .post(async (req, res) => {
       try{
-                    // TO DO: Add req.params.playlistId, req.body validation in another try catch 
+        helpers.validateId(req.params.playlistId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+      try{
+        helpers.validateId(req.params.songId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+      try{
           let response = await playlistData.addSongs(req.params.playlistId, req.params.songId);
           return res.status(201).json(response)
       } catch (e) {
@@ -88,13 +119,39 @@ router
 
     .delete(async (req, res) => {
       try{
-                    // TO DO: Add req.params.playlistId, req.body validation in another try catch 
+        helpers.validateId(req.params.playlistId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+      try{
+        helpers.validateId(req.params.songId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+      try{
         let response = await playlistData.deleteSongs(req.params.playlistId, req.params.songId);
         return res.status(200).json(response)
       }catch (e) {
         res.status(400).json({error:e});
     }
     })
+router
+  .route('/playlist/songs/:songId')
+    .delete(async (req, res) => {
+      try{
+        helpers.validateId(req.params.playlistId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+        try {
+            let response = await playlistData.deleteSongsAcros(
+                req.params.songId
+            );
+            return res.status(201).json(response);
+        } catch (e) {
+            res.status(400).json({ error: e });
+        }
+    });   
 
   
   module.exports = router;

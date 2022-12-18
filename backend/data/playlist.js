@@ -17,8 +17,8 @@ const createPlaylistObject = async(obj)=>{
   }
 
 const addSongs = async(playlistId, songId)=>{
-    validation.checkObjectId(playlistId);
-    validation.checkObjectId(songId);
+    validation.validateId(playlistId);
+    validation.validateId(songId);
     let song = await songsData.getSongsById(songId)
     const users = await userCollection();
     const user = await users.findOne({ 
@@ -42,8 +42,8 @@ const addSongs = async(playlistId, songId)=>{
     };
 
 const deleteSongs = async(playlistId, songId)=>{
-    validation.checkObjectId(playlistId);
-    validation.checkObjectId(songId);
+    validation.validateId(playlistId);
+    validation.validateId(songId);
     const users = await userCollection();
     const deleteInfo = await users
     .updateOne(
@@ -64,7 +64,7 @@ const deleteSongs = async(playlistId, songId)=>{
 
 }
 const createPlaylist = async (userId, obj) => {
-    validation.checkObjectId(userId)
+    validation.validateId(userId)
     validation.checkPlistObj(obj)
 
     let newPlaylist = {
@@ -93,14 +93,13 @@ const createPlaylist = async (userId, obj) => {
 const getAllPlaylist = async (userId) => {
 
     userId = userId.trim();
-    validation.checkObjectId(userId)
-
+    validation.validateId(userId)
     const playlists = await userCollection();
     const allPlaylist = await playlists.find(
         {_id : ObjectId(userId)}, 
         {projection:{playlist:1, _id:0}}).toArray();
   
-    if(allPlaylist[0].playlist.length === 0) throw " No playlist yet "
+    if(allPlaylist.length === 0) throw " No playlist with that id "
     let fetchedPlaylists =  allPlaylist[0].playlist
     for(let i=0; i<allPlaylist[0].playlist.length;i++){
       for(let j=0; j<fetchedPlaylists[i].songs.length; j++){
@@ -112,7 +111,7 @@ const getAllPlaylist = async (userId) => {
 
 const deletePlaylist = async (playlistId)=>{
     if (!playlistId) throw 'You must provide an id to search for';
-    validation.checkObjectId(playlistId)
+    validation.validateId(playlistId)
     playlistId = playlistId.trim();
     const users = await userCollection();
 
@@ -137,9 +136,32 @@ const deletePlaylist = async (playlistId)=>{
     return deletionInfo.value.playlist;
 }
 
+const deleteSongsAcros = async(songId)=>{
+  validation.validateId(songId);
+  const users = await userCollection();
+  const deleteInfo = await users
+      .updateMany(
+          {
+              //"playlist._id":new ObjectId(playlistId)
+              "playlist.songs":songId
+          },
+          {$pull:{
+                  //"playlist.$.songs":{"_id":songId}
+                  "playlist.$.songs":songId
+              }
+          }
+      )
+  if (!deleteInfo.matchedCount&&!deleteInfo.modifiedCount){
+      throw 'could not delete songs successfully'
+  }
+  return {deletion: true, songId}
+
+}
+
 const modifyPlaylist = async (playlistId, obj) => {
     //let playlistUpdateInfo = await createPlaylistObject(obj);
-    validation.checkObjectId(playlistId)
+    validation.validateId(playlistId)
+    validation.checkPlistObj(obj)
     let newInfo = obj
     const users = await userCollection();
     const updateInfo = await users.updateOne(
@@ -158,7 +180,7 @@ const modifyPlaylist = async (playlistId, obj) => {
   
 }
 const getPlaylist = async (playlistId) => {
-      validation.checkObjectId(playlistId)
+      validation.validateId(playlistId)
       const users = await userCollection();
       const user = await users
       .findOne({
@@ -192,5 +214,6 @@ module.exports = {
     modifyPlaylist,
     getPlaylist,
     addSongs,
-    deleteSongs
+    deleteSongs,
+    deleteSongsAcros
 }
