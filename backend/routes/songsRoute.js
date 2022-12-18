@@ -8,17 +8,11 @@ router
   .route("/")
   .get(async (req, res) => {
     try{
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
       console.log("here")
-<<<<<<< HEAD
->>>>>>> bb477d8 (Sorting & groupby logic)
-=======
+
       // TO DO: ADD sort_by fiekld validation in another try cath
->>>>>>> 3c58726 (refactor: added TO DO comments)
-=======
->>>>>>> 6d6339b (backend fix)
+
       let response = await songsData.fetchSongs(req.query.sort_by);
       return res.status(200).json(response);
     } catch (error) {

@@ -26,19 +26,10 @@ router
   })
   .post(async (req, res) => {
     try {
-<<<<<<< HEAD
-<<<<<<< HEAD
       let userName = req.body.userName;
       let password = req.body.password
       validateUsernameNPassword(userName, password);
-=======
-      validateUsernameNPassword(usernameInput, passwordInput);
->>>>>>> 2029ebc (validations for user authentication)
-=======
-      let userName = req.body.userName;
-      let password = req.body.password
-      validateUsernameNPassword(userName, password);
->>>>>>> ead7024 (feat: added route for frontend and also added seed files)
+
     } catch (e) {
 
       res.status(400).json(e);//using send will crash the code in edge case
@@ -47,11 +38,7 @@ router
       let response = await usersData.createUser(req.body);
       return res.status(201).json(response);
     } catch (error) {
-<<<<<<< HEAD
       return res.status(400).json(error);//using send will crash the code in edge case
-=======
-      res.status(400).json(error);//using send will crash the code in edge case
->>>>>>> 4df55b4 (add features for playlist: delete and update)
     }
   });
 
@@ -60,15 +47,8 @@ router.route("/login").post(async (req, res) => {
   let userName = req.body.userName;
   let password = req.body.password;
   try {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     validateUsernameNPassword(userName, password);
-=======
-    validateUsernameNPassword(usernameInput, passwordInput);
->>>>>>> 2029ebc (validations for user authentication)
-=======
-    validateUsernameNPassword(userName, password);
->>>>>>> ead7024 (feat: added route for frontend and also added seed files)
   } catch (e) {
     console.log("e",e)
     return res.status(400).json(e);//using send will crash the code in edge case
