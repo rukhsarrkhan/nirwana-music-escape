@@ -17,15 +17,15 @@ const LoginComp = ({ userData, loginUserAPICall }) => {
 
 
   useEffect(() => {
-    console.log("userData.user.data",userData)
+    console.log("userData.user.data", userData);
     if (userData.user.data && userData.user.userLoggedIn === true) {
-      if (userData.user.data.role === "admin"){
+      if (userData.user.data.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/dashboard");
       }
     } else if (userData.user.error) {
-      setErrorMessage('Please input correct username and password');
+      setErrorMessage('Error: ' + userData.user.error);
     }
   }, [userData]);
 
@@ -53,9 +53,17 @@ const LoginComp = ({ userData, loginUserAPICall }) => {
     }
   };
 
+  const handleRequest = () => {
+    navigate("/register");
+  };
+
   return (
     <div className='Auth-form-container'>
+      <div className='spaces'>
       <h1>Sign in with your email and password</h1>
+      <CustomButton onClick={handleRequest}> Or Register </CustomButton>
+      </div>
+
       <form onSubmit={handleSubmit} className='Auth-form'>
         <div className="Auth-form-content">
 

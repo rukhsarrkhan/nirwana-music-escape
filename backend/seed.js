@@ -2,7 +2,7 @@ const dbConnection = require('./config/mongoConnection');
 const data = require('./data/');
 const users = data.usersData;
 const songs = data.songsData;
-const playlist = data.playlistsData
+const playlist = data.playlistsData;
 
 async function main() {
   const db = await dbConnection.dbConnection();
@@ -14,11 +14,11 @@ async function main() {
     userName: "skyone@gmail.com",
     password: "Abc123@)",
     role: "user",
-    profileImage:"",
-    phoneNumber:4561238899,
-    playlist:[],
-    likes:[]
-  }
+    profileImage: "",
+    phoneNumber: 4561238899,
+    playlist: [],
+    likes: []
+  };
 
   const patrickObj = {
     firstName: "Patrick",
@@ -26,40 +26,17 @@ async function main() {
     userName: "phill@stevens.edu",
     password: "Abc@12345",
     role: "admin",
-    profileImage:"",
-    phoneNumber:4561238899,
-    playlist:[],
-    likes:[]
-  }
+    profileImage: "",
+    phoneNumber: 4561238899,
+    playlist: [],
+    likes: []
+  };
   const seeduser = await users.createUser(newuserobj);
   const patrickUser = await users.createUser(patrickObj);
 
   const id = seeduser._id.toString();
 
-  const newplaylistobj ={
-    playlistName: "newPlist",
-    description: "new playlist for skyone",
-    songs:[]   
-  }
-await playlist.createPlaylist(id,newplaylistobj);
-
-  const anotherplaylistobj = {
-    playlistName: "anoPlist",
-    description: "another playlist for skyone",
-    songs:[]      
-  }
-
- await playlist.createPlaylist(id,anotherplaylistobj);
-
-  const newsongobj = {
-    songName: "first song",
-    songUrl: "some amazon url",
-    genre: "Dancing song",
-    artist: "Jack",
-    createdAt: "12/10/2022"    
-  }
-
-  const romanticsongs=[
+  const romanticsongs = [
     {
       _id: "639e99a025371c73bfc5a19f",
       songName: "Nostalgia",
@@ -92,13 +69,13 @@ await playlist.createPlaylist(id,newplaylistobj);
       artist: "craymer",
       createdAt: "12/15/2022"
     }
-  ]
+  ];
 
-  for(let i=0; i<romanticsongs.length; i++){
-    await songs.seedSongs(romanticsongs[i])
+  for (let i = 0; i < romanticsongs.length; i++) {
+    await songs.seedSongs(romanticsongs[i]);
   }
-   
-  const hiphopsongs=[
+
+  const hiphopsongs = [
     {
       _id: "639e9a3625371c73bfc5a1a3",
       songName: "$orries",
@@ -123,12 +100,12 @@ await playlist.createPlaylist(id,newplaylistobj);
       artist: "Rufi-O",
       createdAt: "12/15/2022"
     }
-  ]
-  for(let i=0; i<hiphopsongs.length; i++){
-    await songs.seedSongs(hiphopsongs[i])
+  ];
+  for (let i = 0; i < hiphopsongs.length; i++) {
+    await songs.seedSongs(hiphopsongs[i]);
   }
 
-  const operasongs=[
+  const operasongs = [
     {
       _id: "639e9ade25371c73bfc5a1a6",
       songName: "5 32pm",
@@ -153,12 +130,12 @@ await playlist.createPlaylist(id,newplaylistobj);
       artist: "junyii",
       createdAt: "12/15/2022"
     }
-  ]
-  for(let i=0; i<operasongs.length; i++){
-    await songs.seedSongs(operasongs[i])
+  ];
+  for (let i = 0; i < operasongs.length; i++) {
+    await songs.seedSongs(operasongs[i]);
   }
 
-  const kpopsongs=[
+  const kpopsongs = [
     {
       _id: "639e9b6a25371c73bfc5a1a9",
       songName: "Backpack City",
@@ -175,12 +152,26 @@ await playlist.createPlaylist(id,newplaylistobj);
       artist: "xander",
       createdAt: "12/15/2022"
     }
-  ]
-  for(let i=0; i<kpopsongs.length; i++){
-    await songs.seedSongs(kpopsongs[i])
+  ];
+  for (let i = 0; i < kpopsongs.length; i++) {
+    await songs.seedSongs(kpopsongs[i]);
   }
-  await songs.seedSongs(newsongobj);
-  
+
+  const newplaylistobj = {
+    playlistName: "newPlist",
+    description: "new playlist for skyone",
+    songs: ["639e9a5225371c73bfc5a1a4", "639e9afc25371c73bfc5a1a7"]
+  };
+  await playlist.createPlaylist(id, newplaylistobj);
+
+  const anotherplaylistobj = {
+    playlistName: "anoPlist",
+    description: "another playlist for skyone",
+    songs: ["639b748a04a2e5746d5afec7", "639e9b6a25371c73bfc5a1a9", "639e9a1025371c73bfc5a1a2"]
+  };
+
+  await playlist.createPlaylist(id, anotherplaylistobj);
+
 
   console.log('Done seeding database');
 

@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import List from "@mui/material/List";
 import NavItem from "./NavItem";
-import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 import "./sidebar.css";
 
 const styles = {
@@ -22,21 +21,37 @@ const styles = {
     },
   },
 };
-//const navigate = useNavigate('/')
-const NavigationSidebar = () => {
-  let navigate = useNavigate()
-  return(
-  <List className="navbar">
-    <Link to="/" style={{textDecoration:'none'}}><NavItem option='Home' Icon={HomeIcon}/></Link>
-    
-    <NavItem option = "Search" Icon={SearchIcon}/>
-    <Link to="/playlists" style={{textDecoration:'none'}}><NavItem option='Your Playlists' Icon={LibraryMusicIcon}/></Link>
-    <Link to="/create-playlist" style={{textDecoration:'none'}}><NavItem option='Create Playlist' Icon={LibraryMusicIcon}/></Link>
-    {/* <NavItem option = 'Your Playlist' Icon={LibraryMusicIcon} /> */}
-</List>
-);}
+
+const NavigationSidebar = ({ userData }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    console.log("userData.user.data", userData);
+    if (userData.user.data && userData.user.userLoggedIn === true) {
+      if (userData.user.data.role === "user") {
+        setFirstName(userData.user.data.firstName);
+        setLastName(userData.user.data.lastName);      } 
+    }
+  }, [userData]);
+
+  return (
+    <List className="navbar">
+      {firstName && (<h2>Hi, {firstName} {lastName}</h2>)}
+      <Link to="/" style={{ textDecoration: 'none' }}><NavItem option='Home' Icon={HomeIcon} /></Link>
+      <Link to="/playlists" style={{ textDecoration: 'none' }}><NavItem option='Your Playlists' Icon={LibraryMusicIcon} /></Link>
+      <Link to="/create-playlist" style={{ textDecoration: 'none' }}><NavItem option='Create Playlist' Icon={LibraryMusicIcon} /></Link>
+    </List>
+  );
+};
 
 
+const mapStateToProps = state => {
+  return {
+    userData: state
+  };
+};
 
-
-export default NavigationSidebar;
+export default connect(
+  mapStateToProps
+)(NavigationSidebar);

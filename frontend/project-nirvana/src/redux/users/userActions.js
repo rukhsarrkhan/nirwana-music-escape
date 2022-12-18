@@ -79,3 +79,4 @@ export const logoutCall = (obj) => {
         localStorage.removeItem("authToken");
     };
 };
+

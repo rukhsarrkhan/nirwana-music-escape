@@ -14,7 +14,7 @@ export const userReducer = (state = (initialState), action) => {
                 ...state, userLoggedIn: true, data: action.payload, error: "", status: "OK"
             };
         case USER_LOGIN_FALIURE: return {
-            ...state, userLoggedIn: false, error: action.payload
+            ...state, userLoggedIn: false, error: action.payload.response.data
         };
         case USER_LOGOUT: return {
             ...initialState
@@ -24,7 +24,7 @@ export const userReducer = (state = (initialState), action) => {
                 ...state, data: action.payload, error: "", status: "OK"
             };
         case USER_REGISTER_FALIURE: return {
-            ...state, error: action.payload
+            ...state, error: action.payload.response.data
         };
         default: return state;
     }

@@ -27,7 +27,7 @@
 }
 
 .Auth-form {
-  width: 420px;
+  width: 600px;
   box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
   padding-top: 30px;
   padding-bottom: 20px;
@@ -56,4 +56,8 @@ label {
 
 .error {
   color: #ba3939;
+}
+
+.spaces {
+  padding-right: 150px;
 }

@@ -4,32 +4,32 @@ const bcrypt = require("bcrypt");
 const saltRounds = 8;
 const { isProperString, isPasswordValid, checkUserObject } = require("../helpers");
 const jwt = require("jsonwebtoken");
-const createUserObject=async(obj)=>{
+const createUserObject = async (obj) => {
   let user = {
     firstName: obj.firstName,
     lastName: obj.lastName,
     userName: obj.userName,
     password: await bcrypt.hash(obj["password"], saltRounds),
     role: obj.role,
-    profileImage:"",
-    phoneNumber:obj.phoneNumber,
-    playlist:[],
-    likes:[]
-  }
+    profileImage: "",
+    phoneNumber: obj.phoneNumber,
+    playlist: [],
+    likes: []
+  };
   return user;
-}
+};
 
 const createUser = async (obj) => {
   let user = await createUserObject(obj);
-  if(typeof obj.role == 'undefined') user.role='user'
-  checkUserObject(user)
+  if (typeof obj.role == 'undefined') user.role = 'user';
+  checkUserObject(user);
   const users = await userCollection();
   if (await users.findOne({ userName: user.userName })) throw "User already exists";
   const insertInfo = await users.insertOne(user);
   console.log(insertInfo);
   if (!insertInfo.insertedCount == 0) throw "Server Error";
   user['_id'] = insertInfo.insertedId.toString();
-  user['token'] = generateToken(insertInfo.insertedId)
+  user['token'] = generateToken(insertInfo.insertedId);
   return user;
 };
 
@@ -48,7 +48,7 @@ const checkUser = async (username, password) => {
   if (!user) throw "Invalid Username or Password";
   const authenticated = await bcrypt.compare(password, user.password);
   user['token'] = generateToken(user._id);
-  if (authenticated) return  user;
+  if (authenticated) return user;
   throw "Invalid Username / Password";
 };
 

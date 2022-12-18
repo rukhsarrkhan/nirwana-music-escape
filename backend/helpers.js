@@ -1,4 +1,4 @@
-const { TopologyOpeningEvent,ObjectId } = require("mongodb");
+const { TopologyOpeningEvent, ObjectId } = require("mongodb");
 
 const isProperString = (string) => {
   return typeof string == "string" && string.trim().length != 0;
@@ -84,9 +84,9 @@ const checkValidCasteMember = (genre) => {
   });
 };
 
-function checkObjectId(id){
+function checkObjectId(id) {
   if (!ObjectId.isValid(id)) {
-      throw 'Invalid ObjectId';
+    throw 'Invalid ObjectId';
   }
 }
 
@@ -101,14 +101,14 @@ function checkPlistName(str) {
     const regex = /^[a-zA-Z0-9 ]+$/;
     //const regexNumb = /^[0-9 ]+$/;
     if (regex.test(str)) {
-      return true;    
-  }else{
+      return true;
+    } else {
       return false;
-  }
+    }
   }
   if (!isTitle(str)) {
-      throw 'String must contain letters a-z, A-Z or numbers';
-      }
+    throw 'String must contain letters a-z, A-Z or numbers';
+  }
 }
 
 function checkPlistObj(obj){
@@ -259,36 +259,36 @@ const validateCreateUserObject = (
   role,
   phoneNumber,
 ) => {
-    if (typeof firstName !== "string") {
-        throw "firstName is not of proper type";
-      }
-      if (firstName.trim().length == 0 || firstName.length == 0) {
-        throw "firstName cannot be just empty spaces";
-      }
-      if (typeof lastName !== "string") {
-        throw "lastName is not of proper type";
-      }
-      if (lastName.trim().length == 0 || lastName.length == 0) {
-        throw "lastName cannot be just empty spaces";
-      }
-      if (typeof userName !== "string") {
-        throw "userName is not of proper type";
-      }
-      if (userName.trim().length == 0 || userName.length == 0) {
-        throw "userName cannot be just empty spaces";
-      }
-      if (typeof role !== "string") {
-        throw "role is not of proper type";
-      }
-      if (role.trim().length == 0 || role.length == 0) {
-        throw "role cannot be just empty spaces";
-      }
-      if(role!=="user" || role!=="admin"){
-      throw "role must be user or admin"
-      }
-      if(!role.toLowerCase){
-        throw "role should be of lower case"
-      }
+  if (typeof firstName !== "string") {
+    throw "firstName is not of proper type";
+  }
+  if (firstName.trim().length == 0 || firstName.length == 0) {
+    throw "firstName cannot be just empty spaces";
+  }
+  if (typeof lastName !== "string") {
+    throw "lastName is not of proper type";
+  }
+  if (lastName.trim().length == 0 || lastName.length == 0) {
+    throw "lastName cannot be just empty spaces";
+  }
+  if (typeof userName !== "string") {
+    throw "userName is not of proper type";
+  }
+  if (userName.trim().length == 0 || userName.length == 0) {
+    throw "userName cannot be just empty spaces";
+  }
+  if (typeof role !== "string") {
+    throw "role is not of proper type";
+  }
+  if (role.trim().length == 0 || role.length == 0) {
+    throw "role cannot be just empty spaces";
+  }
+  if (role !== "user" || role !== "admin") {
+    throw "role must be user or admin";
+  }
+  if (!role.toLowerCase) {
+    throw "role should be of lower case";
+  }
 };
 
 const inputStringValidation = (input, inputString) => {

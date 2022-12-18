@@ -15,6 +15,7 @@ const Header = ({ userData, logoutCall }) => {
   let navigate = useNavigate();
 
   useEffect(() => {
+    console.log("userData",userData)
     if (userData.user.userLoggedIn === true) {
       if (userData.user.data.role === "admin") {
         setIsAdmin(true);
@@ -33,9 +34,10 @@ const Header = ({ userData, logoutCall }) => {
   return (
     <div className="header">
       {!isAdmin && (<SearchArea />)}
-      {/* <h2>Hi, {firstName} {lastName}</h2> */}
+      {firstName && (<h2>Hi, {firstName} {lastName}</h2>)}
       <div className="user-area">
         <AccountCircleIcon onClick={handleChange} style={{ color: 'white', transform: 'scale(1.5' }} />
+
       </div>
     </div>
   );

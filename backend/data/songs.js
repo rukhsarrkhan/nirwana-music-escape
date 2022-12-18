@@ -1,12 +1,12 @@
 const mongoCollections = require("../config/mongoCollections");
 const moment = require('moment');
 const { ObjectId } = require('mongodb');
-const { HttpRequest }= require("@aws-sdk/protocol-http");
+const { HttpRequest } = require("@aws-sdk/protocol-http");
 const { S3RequestPresigner } = require("@aws-sdk/s3-request-presigner");
 const { Sha256 } = require("@aws-crypto/sha256-browser");
 const { parseUrl } = require("@aws-sdk/url-parser");
 const { Hash } = require("@aws-sdk/hash-node");
-const { formatUrl }= require("@aws-sdk/util-format-url");
+const { formatUrl } = require("@aws-sdk/util-format-url");
 const axios = require('axios');
 const songs = mongoCollections.songs_collection;
 const Path = require('path');
@@ -40,13 +40,6 @@ const getSongsById = async (id) => {
 
 const uploadFile = async (file, fileName) => {
   console.log("file", file);
-
-  // console.log("fileName", fileName);
-  // var fileStream = fs.createReadStream(file);
-  // fileStream.on('error', function (err) {
-  //   console.log('File Error', err);
-  //   // TO DO: return error
-  // });
   const params = {
     Bucket: 'nivana-music', // pass your bucket name
     Key: fileName + ".mp3", // file will be saved as testBucket/contacts.csv
@@ -56,7 +49,7 @@ const uploadFile = async (file, fileName) => {
   return s3.upload(params, function (err, data) {
     if (err) {
       console.log("Error", err);
-      throw err
+      throw err;
     } if (data) {
       console.log("Upload Success", data.Location);
       return data.Location;
@@ -68,8 +61,8 @@ const uploadFile = async (file, fileName) => {
 const uploadSong = async (obj) => {
   // TO DO: add obj validation
   const songsCollection = await songs();
-  const song = await songsCollection.findOne({songName:obj.songName});
-  console.log(song,"songName")
+  const song = await songsCollection.findOne({ songName: obj.songName });
+  console.log(song, "songName");
   if (song !== null) {
     throw 'song already exists';
   }
@@ -120,37 +113,37 @@ const seedSongs = async (obj) => {
 const fetchSongs = async (sort_by) => {
   // TO DO: add sort_by validation
   const songsCollection = await songs();
-  let songList = await songsCollection.find({}).sort({sort_by:1}).toArray();
+  let songList = await songsCollection.find({}).sort({ sort_by: 1 }).toArray();
   if (!songList) {
     throw 'Could not get all songs';
   }
-  const returndata={ }
-  console.log(sort_by)
-  if(typeof sort_by==="undefined") return songList
+  const returndata = {};
+  console.log(sort_by);
+  if (typeof sort_by === "undefined") return songList;
   songList.forEach(song => {
     song._id = song._id.toString();
-    if(returndata[song[sort_by]]===undefined) returndata[song[sort_by]]=[]
-    returndata[song[sort_by]].push(song)
+    if (returndata[song[sort_by]] === undefined) returndata[song[sort_by]] = [];
+    returndata[song[sort_by]].push(song);
   });
 
   return returndata;
 };
 
-const fetchSongForPlaylistForm = async() => {
+const fetchSongForPlaylistForm = async () => {
   const songsCollection = await songs();
   let songList = await songsCollection.find({}).toArray();
   if (!songList) {
     throw 'Could not get all songs';
   }
-  const returndata=[]
+  const returndata = [];
 
   songList.forEach(song => {
     song._id = song._id.toString();
-    let newSong = {label: song.songName, value: song._id}
-    returndata.push(newSong)
+    let newSong = { label: song.songName, value: song._id };
+    returndata.push(newSong);
   });
 
-return returndata;
+  return returndata;
 };
 
 const generatePresignedURL = async (path) => {
@@ -158,21 +151,21 @@ const generatePresignedURL = async (path) => {
   const region = "us-east-1";
   const credentials = {
     accessKeyId: "AKIA46ESQPY7OMW7MQ4B",
-  secretAccessKey: "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"
-  }
+    secretAccessKey: "GkP7TygL0oHPJbgkI5ooEPZzmW+0ERidECRgS9U/"
+  };
   const s3ObjectUrl = parseUrl(`https://${bucket}.s3.${region}.amazonaws.com/${path}.mp3`);
-  console.log("s3ObjectUrl",s3ObjectUrl);
+  console.log("s3ObjectUrl", s3ObjectUrl);
   const presigner = new S3RequestPresigner({
     credentials,
     region,
     sha256: Hash.bind(null, "sha256"), // In Node.js
     //sha256: Sha256 // In browsers
   });
-  console.log("presigner",presigner);
+  console.log("presigner", presigner);
   // Create a GET request from S3 url.
   const url = await presigner.presign(new HttpRequest(s3ObjectUrl));
   console.log("url", formatUrl(url));
-  return formatUrl(url)
+  return formatUrl(url);
 
 };
 const fetchSong = async (id) => {
@@ -195,8 +188,8 @@ const fetchSong = async (id) => {
   //   }
 
   // })
-  console.log(data2)
-  return data2
+  console.log(data2);
+  return data2;
 };
 
 const deleteSong = async (id) => {

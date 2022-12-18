@@ -1,138 +1,88 @@
-import React, { useState } from "react";
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// import { FormData } from 'form-data';
-import $ from 'jquery';
-
-
 import FormInput from '../form-input/form-input.component';
 import FormInput2 from "../form-input2/form-input2.component";
 import CustomButton from '../custom-button/custom-button.component';
-// import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { uploadAPISongCall } from "../../redux/songs/songActions";
 
 import './admin.css';
 
-const Admin = (props) => {
+const Admin = ({ songData, uploadAPISongCall }) => {
 
   const [songName, setSongName] = useState('');
   const [song, setSong] = useState();
   const [songNameInFile, setSongNameByFile] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [genre, setGenre] = useState('');
   const [artist, setArtist] = useState('');
 
   let navigate = useNavigate();
 
+  useEffect(() => {
+    if (songData.playerSong.songUploadData && songData.playerSong.status == "OK") {
+      navigate("/admin-portal");
+    } else if (songData.playerSong.songUploadError) {
+      setErrorMessage('Error: ' + songData.playerSong.songUploadError);
+    }
+  }, [songData]);
+
+  function formDataToJson(formData) {
+    const obj = {};
+    formData.forEach((value, key) => {
+      obj[key] = value;
+    });
+    return JSON.stringify(obj);
+  }
+
   const handleSubmit = async event => {
     event.preventDefault();
-    // try {
-    //   await auth.signInWithEmailAndPassword(email, password);
-    //   this.setState({ email: '', password: '' });
-    // } catch (error) {
-    //   console.log(error); 
-    // }
-
-  //   const buffer = await song.arrayBuffer()
-
-  //   const formData = new FormData();
-  //   formData.append('songName', songName);
-  //   formData.append('song', buffer);
-  //   formData.append('genre', genre);
-  //   formData.append('artist', artist);
-  // console.log(buffer)
-  //   try {
-  //     let resp = await axios.post('http://localhost:3000/songs', {
-  //       formData
-  //     });
-  //     console.log("resp", resp);
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  //   console.log("song",song)
-
 
     var reader = new FileReader();
-  // reader.onload = function() {
 
-  //   var arrayBuffer = this.result,
-  //     array = new Uint8Array(arrayBuffer),
-  //     binaryString = String.fromCharCode.apply(null, array);
+    reader.readAsArrayBuffer(song);
 
-  //   console.log(binaryString);
 
-  // }
-  reader.readAsArrayBuffer(song);
-  console.log("reader",reader)
+    let formData = new FormData();
+    formData.append('songName', songName);
+    formData.append('song', reader);
+    formData.append('genre', genre);
+    formData.append('artist', artist);
 
-    // const formData = new FormData();
-    // // formData.append('file', song);
-    // // formData.append('fileName', song.name);
-    // formData.append('songName', songName);
-    // formData.append('song', reader);
-    // formData.append('genre', genre);
-    // formData.append('artist', artist);
-
-    $.ajax({
-      url: "http://localhost:3000/songs",
-      type: 'POST',
-      data: JSON.stringify({
-        songName: songName,
-        song: reader,
-        genre: genre,
-        artist: artist
-      }),
-      contentType: "application/json",
-      headers: {
-        'content-type': 'application/json',
-      },
-      processData: false,
-      contentType: false,
-      cache: false,
-      success: function (data) {
-        console.log("success");
-        // Success..
-        // this.setState({
-        //   contactEmail: 'success',
-        //   contactMessage: '<h1>Kontakt skickad!</h1><p>Återkommer så fort som möjligt.</p>'
-        // });
-        // $('#formContact').slideUp();
-        // $('#formContact').after(this.state.contactMessage);
-        console.log('success', data);
-      }.bind(this),
-      // Fail..
-      error: function (xhr, status, err) {
-        console.log(xhr, status);
-        console.log(err);
-        // this.setState({
-        //   contactEmail: 'danger',
-        //   contactMessage: '<h1>Sorry det blev fel</h1><p>Försök gärna igen, eller mejla mig direkt på magdamargaretha@gmail.com</p>'
-        // });
-        // console.log(this.state.contactEmail + this.state.contactMessage + 'fail');
-      }.bind(this)
-    });
+    const songObj = {
+      body: formDataToJson(formData)
+    };
+    uploadAPISongCall(songObj);
   };
 
   const handleChange = event => {
     const { value, name, files } = event.target;
-    console.log("value",value)
 
-    console.log("files",files)
     if (name == 'songName') {
       setSongName(value);
     } else if (name == 'song') {
       setSong(files[0]);
-      setSongNameByFile(files[0].name)
+      setSongNameByFile(files[0].name);
     } else if (name == 'genre') {
       setGenre(value);
     } else if (name == 'artist') {
       setArtist(value);
     }
   };
+
+
+  const handleRequest = () => {
+    navigate("/admin-portal");
+  };
+
   return (
     <div className='Auth-form-container'>
+      <div className='spaces'>
       <h1>Upload song to Nirwana</h1>
+      <CustomButton onClick={handleRequest}> Or Delete Songs </CustomButton>
+      </div>
+
       <form onSubmit={handleSubmit} className='Auth-form'>
         <div className="Auth-form-content">
 
@@ -152,7 +102,6 @@ const Admin = (props) => {
             label='Upload Song'
             required
           />
-          {/* <input name='song' type="file" value={song} accept="audio/mp3" onChange={handleChange} label='Upload Song' required/> */}
           <FormInput
             name='genre'
             type='text'
@@ -169,11 +118,13 @@ const Admin = (props) => {
             label='Enter Artist'
             required
           />
+          {errorMessage && (
+            <p className="error"> {errorMessage} </p>
+          )}
           <div className='buttons'>
-            <CustomButton type='submit'> Sign in </CustomButton>
-            {/* <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-              Sign in with Google
-            </CustomButton> */}
+            <CustomButton type='submit'> Upload </CustomButton>
+            
+
           </div>
         </div>
       </form>
@@ -182,4 +133,21 @@ const Admin = (props) => {
 
 };
 
-export default Admin;
+
+const mapStateToProps = state => {
+  return {
+    songData: state
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    uploadAPISongCall: (obj) => dispatch(uploadAPISongCall(obj))
+
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Admin);

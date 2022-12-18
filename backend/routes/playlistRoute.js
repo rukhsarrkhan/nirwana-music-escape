@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const helpers = require("../helpers");
 const data = require("../data");
-const {protect} = require('../middleware/authJwt')
+const { protect } = require('../middleware/authJwt');
 const playlistData = data.playlistsData;
 
   
@@ -94,7 +94,16 @@ router
       }catch (e) {
         res.status(400).json({error:e});
     }
-    })
+  })
+  .delete(async (req, res) => {
+    try {
+      // TO DO: Add req.params.playlistId in another try catch 
+      let response = await playlistData.deletePlaylist(req.params.playlistId);
+      return res.status(200).json(response);
+    } catch (e) {
+      res.status(400).json({ error: e });
+    }
+  });
 
 router
     .route('/playlist/:playlistId/songs/:songId')
@@ -117,14 +126,7 @@ router
       }
       })
 
-    .delete(async (req, res) => {
-
-      try{
-        helpers.validateId(req.params.playlistId);
-        helpers.validateId(req.params.songId)
-      }catch(e){
-        return res.status(400).json({ error:e });
-      }        
+    .delete(async (req, res) => {      
       try{
         helpers.validateId(req.params.playlistId)
       }catch(e){
@@ -178,5 +180,6 @@ router
         }
     });
 
-  
-  module.exports = router;
+
+
+module.exports = router;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_SONG_TO_PLAY_SUCCESS, FETCH_SONG_TO_PLAY_FALIURE, FETCH_SONG_TO_PLAY } from "./songActionTypes";
+import { FETCH_SONG_TO_PLAY_SUCCESS, FETCH_SONG_TO_PLAY_FALIURE, FETCH_SONG_TO_PLAY, UPLOAD_SONG, UPLOAD_SONG_FAILURE, UPLOAD_SONG_SUCCESS } from "./songActionTypes";
 
 export const fetchSongToPlay = () => {
     return {
@@ -21,6 +21,27 @@ export const fetchSongToPlayFaliure = (error) => {
     };
 };
 
+export const uploadSong = () => {
+    return {
+        type: UPLOAD_SONG
+    };
+};
+
+export const uploadSongSuccess = (song) => {
+    return {
+        type: UPLOAD_SONG_SUCCESS,
+        payload: song
+    };
+};
+
+export const uploadSongFailure = (error) => {
+    return {
+        type: UPLOAD_SONG_FAILURE,
+        payload: error
+    };
+};
+
+
 export const fetchSongToPlayAPICall = (_id) => {
     return async (dispatch) => {
         dispatch(fetchSongToPlay());
@@ -29,6 +50,20 @@ export const fetchSongToPlayAPICall = (_id) => {
             dispatch(fetchSongToPlaySuccess(resp.data));
         } catch (error) {
             console.log(error);
+        }
+    };
+};
+
+
+export const uploadAPISongCall = (obj) => {
+    return async (dispatch) => {
+        dispatch(uploadSong());
+        try {
+            let resp = await axios.post('http://localhost:3000/songs', obj);
+            dispatch(uploadSongSuccess(resp.data));
+        } catch (error) {
+            dispatch(uploadSongFailure(error));
+
         }
     };
 };

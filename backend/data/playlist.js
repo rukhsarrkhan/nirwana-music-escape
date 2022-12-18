@@ -1,59 +1,62 @@
 const mongoCollections = require("../config/mongoCollections");
 const userCollection = mongoCollections.user_collection;
-const validation = require('../helpers')
+const validation = require('../helpers');
 const { ObjectId } = require("mongodb");
 const songsData = require('./songs');
 
 
-const createPlaylistObject = async(obj)=>{
-    let playlistId = new ObjectId()
-    let playlist = {
-      _id: playlistId,
-      playlistName: obj.playlistName,
-      description: obj.description,
-      songs:[]
-    }
-    return playlist;
-  }
+const createPlaylistObject = async (obj) => {
+  let playlistId = new ObjectId();
+  let playlist = {
+    _id: playlistId,
+    playlistName: obj.playlistName,
+    description: obj.description,
+    songs: []
+  };
+  return playlist;
+};
 
-const addSongs = async(playlistId, songId)=>{
-    validation.validateId(playlistId);
-    validation.validateId(songId);
-    let song = await songsData.getSongsById(songId)
-    const users = await userCollection();
-    const user = await users.findOne({ 
+const addSongs = async (playlistId, songId) => {
+  validation.checkObjectId(playlistId);
+  validation.checkObjectId(songId);
+  let song = await songsData.getSongsById(songId);
+  const users = await userCollection();
+  const user = await users.findOne({
+    "playlist._id": new ObjectId(playlistId)
+  });
+  if (user == null) throw "No playlist with that id";
+
+  const updateInfo = await users.updateOne(
+    {
       "playlist._id": new ObjectId(playlistId)
-    })
-    if (user == null) throw "No playlist with that id";
-    
-    const updateInfo = await users.updateOne(
-      {
-        "playlist._id":new ObjectId(playlistId)
-      },
-      {$addToSet:{
-        "playlist.$.songs":song
+    },
+    {
+      $addToSet: {
+        "playlist.$.songs": song
       }
-      }
-    )
-    if (updateInfo.modifiedCount === 0) throw " this song already exist under this playlist "
+    }
+  );
+  if (updateInfo.modifiedCount === 0) throw " this song already exist under this playlist ";
 
-    const playlist = await getPlaylist(playlistId)
-    return playlist['songs']
-    };
+  const playlist = await getPlaylist(playlistId);
+  return playlist['songs'];
+};
 
-const deleteSongs = async(playlistId, songId)=>{
-    validation.validateId(playlistId);
-    validation.validateId(songId);
-    const users = await userCollection();
-    const deleteInfo = await users
+const deleteSongs = async (playlistId, songId) => {
+  validation.checkObjectId(playlistId);
+  validation.checkObjectId(songId);
+  const users = await userCollection();
+  const deleteInfo = await users
     .updateOne(
       {
-        "playlist._id":new ObjectId(playlistId)
+        "playlist._id": new ObjectId(playlistId)
       },
-      {$pull:{
-        "playlist.$.songs":{"_id":songId}
+      {
+        $pull: {
+          "playlist.$.songs": { "_id": songId }
+        }
       }
-      }
+      
 )
 
     if (!deleteInfo.matchedCount&&!deleteInfo.modifiedCount){
@@ -115,49 +118,51 @@ const createPlaylist = async (userId, obj) => {
 
 const getAllPlaylist = async (userId) => {
 
-    userId = userId.trim();
-    validation.validateId(userId)
-    const playlists = await userCollection();
-    const allPlaylist = await playlists.find(
-        {_id : ObjectId(userId)}, 
-        {projection:{playlist:1, _id:0}}).toArray();
-  
-    if(allPlaylist.length == 0) throw " No playlist under this id "
-    let fetchedPlaylists =  allPlaylist[0].playlist
-    for(let i=0; i<allPlaylist[0].playlist.length;i++){
-      for(let j=0; j<fetchedPlaylists[i].songs.length; j++){
-        fetchedPlaylists[i].songs[j] = await songsData.getSongsById(fetchedPlaylists[i].songs[j])
-      }
-    };
-    return fetchedPlaylists;
-}
+  userId = userId.trim();
+  validation.checkObjectId(userId);
 
-const deletePlaylist = async (playlistId)=>{
-    if (!playlistId) throw 'You must provide an id to search for';
-    validation.validateId(playlistId)
-    playlistId = playlistId.trim();
-    const users = await userCollection();
+  const playlists = await userCollection();
+  const allPlaylist = await playlists.find(
+    { _id: ObjectId(userId) },
+    { projection: { playlist: 1, _id: 0 } }).toArray();
 
-    const deletionInfo = await users.findOneAndUpdate({
-      'playlist._id': ObjectId(playlistId)
-      //target the playlist it belongs to deleteInfo contains current user
-    },
-    {
-      $pull: 
-      {playlist: {'_id': ObjectId(playlistId)}
+  if (allPlaylist[0].playlist.length === 0) throw " No playlist yet ";
+  let fetchedPlaylists = allPlaylist[0].playlist;
+  for (let i = 0; i < allPlaylist[0].playlist.length; i++) {
+    for (let j = 0; j < fetchedPlaylists[i].songs.length; j++) {
+      fetchedPlaylists[i].songs[j] = await songsData.getSongsById(fetchedPlaylists[i].songs[j]);
     }
+  };
+  return fetchedPlaylists;
+};
+
+const deletePlaylist = async (playlistId) => {
+  if (!playlistId) throw 'You must provide an id to search for';
+  validation.checkObjectId(playlistId);
+  playlistId = playlistId.trim();
+  const users = await userCollection();
+
+  const deletionInfo = await users.findOneAndUpdate({
+    'playlist._id': ObjectId(playlistId)
+    //target the playlist it belongs to deleteInfo contains current user
   },
-  {returnDocument: 'after'}
+    {
+      $pull:
+      {
+        playlist: { '_id': ObjectId(playlistId) }
+      }
+    },
+    { returnDocument: 'after' }
   );
-    //setting returnDocument to 'after' 
-    //will return the updated document, leastest keyword.
-    if (deletionInfo.deletedCount === 0) {
-      throw 'Could not delete review with id of ${reviewId}';
-    }
-  
-    //deletionInfo.value.reviews._id = deletionInfo.value.reviews._id.toString();
-    return deletionInfo.value.playlist;
-}
+  //setting returnDocument to 'after' 
+  //will return the updated document, leastest keyword.
+  if (deletionInfo.deletedCount === 0) {
+    throw 'Could not delete review with id of ${reviewId}';
+  }
+
+  //deletionInfo.value.reviews._id = deletionInfo.value.reviews._id.toString();
+  return deletionInfo.value.playlist;
+};
 
 
 const modifyPlaylist = async (playlistId, obj) => {
@@ -177,10 +182,14 @@ const modifyPlaylist = async (playlistId, obj) => {
     if (!updateInfo.matchedCount&&!updateInfo.modifiedCount){
         throw 'could not update playlist successfully'
     }
-    const playlist = getPlaylist(playlistId)
-    return playlist
   
-}
+  if (!updateInfo.matchedCount && !updateInfo.modifiedCount) {
+    throw 'could not update playlist successfully';
+  }
+  const playlist = getPlaylist(playlistId);
+  return playlist;
+
+};
 const getPlaylist = async (playlistId) => {
       validation.validateId(playlistId)
       const users = await userCollection();

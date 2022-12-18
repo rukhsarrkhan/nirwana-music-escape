@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { userRegistrationAPICall } from '../../redux/users/userActions';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -20,9 +20,9 @@ const Register = ({ userData, userRegistrationAPICall }) => {
 
   useEffect(() => {
     if (userData.user.data && userData.user.status === "OK" && userData.user.error === "") {
-        navigate("/login");
+      navigate("/login");
     } else if (userData.user.error !== "") {
-      setErrorMessage('Please provide a correct input');
+      setErrorMessage('Error: ' + userData.user.error);
     }
   }, [userData]);
 
@@ -41,32 +41,39 @@ const Register = ({ userData, userRegistrationAPICall }) => {
       password: password,
       phoneNumber: phoneNumber,
       role: "user"
-    }
-    userRegistrationAPICall(respObj)
+    };
+    userRegistrationAPICall(respObj);
   };
 
   const handleChange = event => {
     const { name, value } = event.target;
-    if (name === 'firstName'){
-      setFirstName(value)
-    } else if ( name === 'lastName'){
-      setLastName(value)
-    } else if (name === 'email'){
-      setEmail(value)
-    } else if ( name === 'password'){
-      setPassword(value)
-    } else if (name === 'confirmPassword'){
-      setConfirmPassword(value)
-    } else if ( name === 'phoneNumber'){
-      setPhoneNumber(value)
+    if (name === 'firstName') {
+      setFirstName(value);
+    } else if (name === 'lastName') {
+      setLastName(value);
+    } else if (name === 'email') {
+      setEmail(value);
+    } else if (name === 'password') {
+      setPassword(value);
+    } else if (name === 'confirmPassword') {
+      setConfirmPassword(value);
+    } else if (name === 'phoneNumber') {
+      setPhoneNumber(value);
     }
   };
+  const handleRequest = () => {
+    navigate("/login");
+  };
 
-    return (
-      <div className='Auth-form-container'>
+  return (
+    <div className='Auth-form-container'>
+      <div className='spaces'>
         <h1>Sign up with your email and password</h1>
-        <form className='Auth-form' onSubmit={handleSubmit}>
-          <div className='Auth-form-content'>
+        <CustomButton onClick={handleRequest}> Or Login </CustomButton>
+      </div>
+
+      <form className='Auth-form' onSubmit={handleSubmit}>
+        <div className='Auth-form-content'>
           <FormInput
             type='text'
             name='firstName'
@@ -118,14 +125,18 @@ const Register = ({ userData, userRegistrationAPICall }) => {
           {errorMessage && (
             <p className="error"> {errorMessage} </p>
           )}
-          <CustomButton type='submit'>Register</CustomButton>
+          <div className='buttons'>
+            <CustomButton type='submit'>Register</CustomButton>
           </div>
 
-        </form>
-      </div>
-    );
 
-}
+        </div>
+
+      </form>
+    </div>
+  );
+
+};
 
 const mapStateToProps = state => {
   return {

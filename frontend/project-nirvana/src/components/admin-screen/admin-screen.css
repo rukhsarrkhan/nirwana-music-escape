@@ -27,7 +27,7 @@
 }
 
 .Auth-form {
-  width: 420px;
+  width: 600px;
   box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
   padding-top: 30px;
   padding-bottom: 20px;
@@ -52,4 +52,8 @@ label {
   font-size: 14px;
   font-weight: 600;
   color: rgb(34, 34, 34);
+}
+
+.spaces {
+  padding-right: 150px;
 }

@@ -8,11 +8,9 @@ const usersData = data.usersData;
 const asyncHandler = require('express-async-handler')
 const { isProperString, isPasswordValid, validateUsernameNPassword } = require("../helpers");
 
-
 const protectedArea= asyncHandler(async (req, res) => { 
   res.status(200).send("user protected area");
 })
-
 
 // router.route("/").get(async (req, res) => {
 //   if (req.session.user) return res.redirect("/protected");
