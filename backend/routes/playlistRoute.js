@@ -9,7 +9,7 @@ const playlistData = data.playlistsData;
   
   router.route("/").get(async (req, res) => {
     if (req.session.user) return res.redirect("/protected");
-    res.status(401).send('dkjhfrwej');
+    res.status(401).send('User not authenticated');
   });
   
   router
@@ -22,7 +22,7 @@ const playlistData = data.playlistsData;
       }
       try {
         let playlistGet = await playlistData.getAllPlaylist(req.params.userId);
-        res.json(playlistGet)
+        return res.status(200).json(playlistGet)
       }catch(e){
        return res.status(404).json({ error:e })
       }
@@ -118,6 +118,13 @@ router
       })
 
     .delete(async (req, res) => {
+
+      try{
+        helpers.validateId(req.params.playlistId);
+        helpers.validateId(req.params.songId)
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }        
       try{
         helpers.validateId(req.params.playlistId)
       }catch(e){
@@ -152,6 +159,24 @@ router
             res.status(400).json({ error: e });
         }
     });   
+
+router
+    .route('/songs/:songId')
+    .delete(async (req, res) => {
+      try{
+        helpers.validateId(req.params.songId);
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }  
+        try {
+            let response = await playlistData.deleteSongsAcros(
+                req.params.songId
+            );
+            return res.status(201).json(response);
+        } catch (e) {
+            res.status(400).json({ error: e });
+        }
+    });
 
   
   module.exports = router;

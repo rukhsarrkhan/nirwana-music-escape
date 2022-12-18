@@ -300,7 +300,6 @@ const inputStringValidation = (input, inputString) => {
     throw "Input string - " + inputString + " is empty";
   }
 };
-
 const validateId=(id)=>{
   if (!id) throw "You must provide an id to search for";
   if (typeof id !== "string") throw "Id must be a string";
@@ -309,6 +308,7 @@ const validateId=(id)=>{
   id = id.trim();
   if (!ObjectId.isValid(id)) throw "invalid object ID";
 };
+
 
 module.exports = {
   isValidObject,

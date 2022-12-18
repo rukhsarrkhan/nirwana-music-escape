@@ -63,6 +63,29 @@ const deleteSongs = async(playlistId, songId)=>{
     return playlist
 
 }
+
+const deleteSongsAcros = async(songId)=>{
+  validation.validateId(songId);
+  const users = await userCollection();
+  const deleteInfo = await users
+      .updateMany(
+          {
+              //"playlist._id":new ObjectId(playlistId)
+              "playlist.songs":songId
+          },
+          {$pull:{
+                  //"playlist.$.songs":{"_id":songId}
+                  "playlist.$.songs":songId
+              }
+          }
+      )
+  if (!deleteInfo.matchedCount&&!deleteInfo.modifiedCount){
+      throw 'could not delete songs successfully'
+  }
+  return {deletion: true, songId}
+
+}
+
 const createPlaylist = async (userId, obj) => {
     validation.validateId(userId)
     validation.checkPlistObj(obj)
@@ -86,7 +109,7 @@ const createPlaylist = async (userId, obj) => {
     );
     user = await users.findOne({ _id: new ObjectId(userId)})
     if (updateInfo.modifiedCount === 0) throw " Could not add playlist successfully "
-    return user['playlist'];
+    return playlist;
     };
 
 
@@ -99,7 +122,7 @@ const getAllPlaylist = async (userId) => {
         {_id : ObjectId(userId)}, 
         {projection:{playlist:1, _id:0}}).toArray();
   
-    if(allPlaylist.length === 0) throw " No playlist with that id "
+    if(allPlaylist.length == 0) throw " No playlist under this id "
     let fetchedPlaylists =  allPlaylist[0].playlist
     for(let i=0; i<allPlaylist[0].playlist.length;i++){
       for(let j=0; j<fetchedPlaylists[i].songs.length; j++){
@@ -136,27 +159,6 @@ const deletePlaylist = async (playlistId)=>{
     return deletionInfo.value.playlist;
 }
 
-const deleteSongsAcros = async(songId)=>{
-  validation.validateId(songId);
-  const users = await userCollection();
-  const deleteInfo = await users
-      .updateMany(
-          {
-              //"playlist._id":new ObjectId(playlistId)
-              "playlist.songs":songId
-          },
-          {$pull:{
-                  //"playlist.$.songs":{"_id":songId}
-                  "playlist.$.songs":songId
-              }
-          }
-      )
-  if (!deleteInfo.matchedCount&&!deleteInfo.modifiedCount){
-      throw 'could not delete songs successfully'
-  }
-  return {deletion: true, songId}
-
-}
 
 const modifyPlaylist = async (playlistId, obj) => {
     //let playlistUpdateInfo = await createPlaylistObject(obj);
