@@ -4,7 +4,10 @@ import NavItem from "./NavItem";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./sidebar.css";
+
 const styles = {
   root: {
     width: 200,
@@ -19,18 +22,21 @@ const styles = {
     },
   },
 };
-
-const NavigationSidebar = () => (
+//const navigate = useNavigate('/')
+const NavigationSidebar = () => {
+  let navigate = useNavigate()
+  return(
   <List className="navbar">
-    {/* <img
-        className="logo"
-        src="https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg"
-        alt=""
-      /> */}
-    <NavItem option='Home' Icon={HomeIcon}/>
-    <NavItem option = "Search" Icon={SearchIcon} />
-    <NavItem option = 'Your Playlist' Icon={LibraryMusicIcon}/>
-  </List>
-);
+    <Link to="/" style={{textDecoration:'none'}}><NavItem option='Home' Icon={HomeIcon}/></Link>
+    
+    <NavItem option = "Search" Icon={SearchIcon}/>
+    <Link to="/playlists" style={{textDecoration:'none'}}><NavItem option='Your Playlists' Icon={LibraryMusicIcon}/></Link>
+    <Link to="/create-playlist" style={{textDecoration:'none'}}><NavItem option='Create Playlist' Icon={LibraryMusicIcon}/></Link>
+    {/* <NavItem option = 'Your Playlist' Icon={LibraryMusicIcon} /> */}
+</List>
+);}
+
+
+
 
 export default NavigationSidebar;

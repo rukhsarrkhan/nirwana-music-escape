@@ -14,6 +14,7 @@ import AdminPortal from "../admin-portal/admin-portal.component";
 import "./main.css";
 import ReroutePage from "../reroute-page/reroute-page";
 
+import Playlist from "../playlists/Playlist";
 const Main = ({ userData }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -47,6 +48,7 @@ const Main = (props) => {
             {isLoggedIn && <Route path="/create-playlist" element={<CreatePlaylist />}></Route>}
             {isLoggedIn && <Route path="/admin" element={<AdminPage />}></Route>}
             {isLoggedIn && <Route path="/admin-portal" element={<AdminPortal />}></Route>}
+            <Route path="/playlists" element={<Playlist />}></Route>
             <Route path="*" element={<ReroutePage />}></Route>
           </Routes>
         </div>

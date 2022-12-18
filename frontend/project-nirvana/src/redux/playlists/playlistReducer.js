@@ -1,17 +1,18 @@
-import { FETCH_SONGS_SUCCESS, FETCH_SONGS_FALIURE, FETCH_SONGS} from "./actionType"
+import { FETCH_PLAYLIST_SUCCESS, FETCH_PLAYLIST_FALIURE, FETCH_PLAYLIST} from "./PlaylistActionTypes"
 
 const initialState = {
     loading: false,
-    songs:[],
+    playlists:[],
     error:''
 }
 export const playlistReducer = (state=(initialState), action)=>{
     switch(action.type){
-        case FETCH_SONGS_SUCCESS:
+
+        case FETCH_PLAYLIST_SUCCESS: console.log(action.payload);
                                 return {
-               ...state, usersongss:action.payload
+               ...state, playlists:action.payload
             }
-        case FETCH_SONGS_FALIURE: return {
+        case FETCH_PLAYLIST_FALIURE: return {
             ...state, error:action.payload
         }
         default: return state;

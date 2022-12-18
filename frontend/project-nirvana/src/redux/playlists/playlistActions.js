@@ -22,7 +22,8 @@ export const fetchPlaylistsAPICall = () => {
     return async (dispatch) => {
         dispatch(fetchPlaylists());
         try {
-            dispatch(fetchPlaylistsSuccess("resp.data"));
+            let resp = await axios.get('http://localhost:3000/playlists'+id)
+            dispatch(fetchPlaylistsSuccess(resp.data))
         } catch (error) {
             console.log(error);
         }

@@ -1,40 +1,71 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomButton from "../../components/custom-button/custom-button.component";
 import FormInput from "../../components/form-input/form-input.component";
 import { MultiSelect } from "react-multi-select-component";
-const CreatePlaylist = () => {
-  const options = [
-    { label: "Grapes 🍇", value: "grapes" },
-    { label: "Mango 🥭", value: "mango" },
-    { label: "Strawberry 🍓", value: "strawberry", disabled: true },
-  ];
+import {connect} from 'react-redux'
+import { useNavigate } from "react-router";
+import axios from 'axios'
+const CreatePlaylist = ({userData, state}) => {
+  let navigate = useNavigate()
+  console.log(userData)
+  console.log(state)
+  const[options, setOptions] = useState([])
+  const loadSongs = async()=>{
+    let {data} = await axios.get("http://localhost:3000/songs/fetchSongForPlaylistForm")
+    console.log(data)
+    setOptions(data)
+  }
+  // let id=''
+  // useEffect(() => {
+  //   id = userData.data._id
+  // }, [userData])
+  
+  const postPlaylist=async(val)=>{
+    console.log(val)
+    let id = userData.data._id
+    console.log(id)
+    let {data} = await axios.post("http://localhost:3000/playlists/"+id, val)
+    console.log(data)
+    navigate('/playlists')
+  }
+  const reqBody ={}
+  useEffect(() => {
+     loadSongs()
+   }, [])
+
+  
   const [values, setValues] = useState({
-    name: "",
-    desc: "",
+    playlistName: "",
+    description: "",
     songs: [],
   });
   const [selected, setSelected] = useState([]);
+
+  useEffect(()=>{
+    values.songs=selected
+  },[selected, values])
   const handleNameInputChange = (event) => {
     event.persist();
     setValues((values) => ({
       ...values,
-      name: event.target.value,
+      playlistName: event.target.value,
     }));
   };
   const handleDescInputChange = (event) => {
     event.persist();
     setValues((values) => ({
       ...values,
-      desc: event.target.value,
+      description: event.target.value,
     }));
   };
-  const handleSongInputChange = (event) => {
-    console.log(event)
-    event.persist();
-    setValues((values) => ({
-      ...values,
-      song: event.target.value,
-    }));
+
+ 
+  const handleRequest = (event) => {
+    const req = {
+      songs:selected,
+      ...values
+    }
+    postPlaylist(values)
   };
   return (
     <>
@@ -62,7 +93,7 @@ const CreatePlaylist = () => {
       />
       <button
         onClick={() => {
-          console.log(values);
+          handleRequest()
         }}
       >
         Add
@@ -71,4 +102,22 @@ const CreatePlaylist = () => {
   );
 };
 
-export default CreatePlaylist;
+const mapStateToProps = state => {
+  console.log(state )
+  // console.log(state)
+  return {
+    userData: state.user,
+    state:state
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreatePlaylist)
