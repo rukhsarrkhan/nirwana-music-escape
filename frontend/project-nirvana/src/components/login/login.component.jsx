@@ -21,10 +21,13 @@ const LoginComp = ({ userData, loginUserAPICall }) => {
 
 
   useEffect(() => {
-
-    console.log("userData-------", userData);
+    console.log("userData.user.data",userData)
     if (userData.user.data && userData.user.userLoggedIn == true) {
-      navigate("/");
+      if (userData.user.data.role == "admin"){
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } else if (userData.user.error) {
       setErrorMessage('Please input correct username and password');
     }
@@ -103,7 +106,6 @@ const LoginComp = ({ userData, loginUserAPICall }) => {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     userData: state
   };

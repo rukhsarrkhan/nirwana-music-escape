@@ -40,7 +40,6 @@ const Register = () => {
         password: password,
         phoneNumber: phoneNumber
       });
-      console.log("rspo",resp)
       navigate("/login");
 
     } catch (error) {

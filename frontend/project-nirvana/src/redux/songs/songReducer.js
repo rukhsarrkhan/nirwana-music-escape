@@ -1,4 +1,4 @@
-import { FETCH_SONG_TO_PLAY_SUCCESS, FETCH_SONG_TO_PLAY_FALIURE, FETCH_SONG_TO_PLAY} from "./songActionTypes"
+import { FETCH_SONG_TO_PLAY_SUCCESS, FETCH_SONG_TO_PLAY_FALIURE, FETCH_SONG_TO_PLAY } from "./songActionTypes";
 
 const initialState = {
 }
@@ -9,8 +9,8 @@ export const playerReducer = (state=(initialState), action)=>{
                ...state, playerSong:action.payload
             }
         case FETCH_SONG_TO_PLAY_FALIURE: return {
-            ...state, error:action.payload
-        }
+            ...state, error: action.payload
+        };
         default: return state;
     }
-}
+};

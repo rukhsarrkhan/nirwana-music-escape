@@ -9,7 +9,6 @@ const MusicPlayer = ({playerSong}) => {
   const [repeat, setRepeat] = useState(false);
   const [volume, setVolume] = useState(1);
   const [musicObj, setMusicObj] = useState("");
-  //console.log(playerSong)
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -88,7 +87,6 @@ const MusicPlayer = ({playerSong}) => {
 };
 
 const mapStateToProps = state => {
-    //console.log(state)
     return {
       playerSong : state.playerSong
     }

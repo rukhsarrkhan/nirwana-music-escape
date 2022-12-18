@@ -56,7 +56,6 @@ const AdminScreen = (props) => {
   const deleteItem = async (getID) => {
     let resp = await axios.delete('http://localhost:3000/songs/' + getID);
     if (resp.status == 200 && resp.statusText == "OK"){
-      console.log("resp", resp);
       setItems(newitems.filter((single) => single._id !== getID));
     }
   };
@@ -79,7 +78,7 @@ const AdminScreen = (props) => {
   };
   return (
     <div className='Auth-form-container'>
-      <h1>Upload song to Nirwana</h1>
+      <h1>Delete song from Nirwana</h1>
       <form onSubmit={handleSubmit} className='Auth-form'>
         <div className="Auth-form-content">
 

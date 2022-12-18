@@ -39,7 +39,6 @@ const [songsForRender, setSongsFormRender]= useState(songs)
   )
 }
 const mapStateToProps = state => {
-    //console.log(state)
     return {
       playerSong : state.playerSong,
       searchSong: state.searchSong.searchData

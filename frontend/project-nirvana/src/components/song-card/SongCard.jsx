@@ -7,7 +7,6 @@ import Card from '@mui/material/Card';
 import {fetchSongToPlayAPICall} from '../../redux/songs/songActions'
 import { connect } from 'react-redux';
 const   SongCard = ({item, fetchSongToPlayAPICall}) => {
-//  console.log(fetchSongToPlayAPICall)
   
   const {artist, songName, genre, imageUrl, _id} = item;
   return (
@@ -31,7 +30,6 @@ const   SongCard = ({item, fetchSongToPlayAPICall}) => {
 
 
 const mapStateToProps = state => {
-  //console.log(state)
   return {
     playerSong : state
   }

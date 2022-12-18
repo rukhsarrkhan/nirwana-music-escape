@@ -5,7 +5,7 @@ const initialState = {
 }
 export const  searchReducer = (state=(initialState), action)=>{
     switch(action.type){
-        case SEARCH_SUCCESS: console.log(action.payload);
+        case SEARCH_SUCCESS:
                                 return {
                ...state, searchData: action.payload
             }

@@ -1,15 +1,16 @@
-.header{
-    display: flex;
-    justify-content: space-between;
-    margin: 25px;
-    align-items: center;
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 25px;
+  align-items: center;
 }
 
 .header__right {
-    display: flex;
-    align-items: center;
-  }
-  
-  .user-area > h4 {
-    margin-left: 10px;
-  }
+  display: flex;
+  align-items: center;
+}
+
+.user-area {
+  position: absolute;
+  right: 40px;
+}

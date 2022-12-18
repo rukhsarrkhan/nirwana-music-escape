@@ -7,7 +7,7 @@ const initialState = {
 }
 export const playlistReducer = (state=(initialState), action)=>{
     switch(action.type){
-        case FETCH_SONGS_SUCCESS: console.log(action.payload);
+        case FETCH_SONGS_SUCCESS:
                                 return {
                ...state, usersongss:action.payload
             }

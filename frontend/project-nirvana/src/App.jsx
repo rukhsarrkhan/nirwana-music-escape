@@ -1,35 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
 import { Provider } from 'react-redux';
-import store from './redux/store'
-import UsersContainer from './UsersContainer';
-import ResponsiveDrawer from './components/sidebar/sidebar';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Main from './pages/main/Main'
-// import Main from './pages/main/Main'
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  BrowserRouter
-} from 'react-router-dom';
-const drawerWidth = 240;
-const App=()=> {
+import store from './redux/store';
+import Main from './pages/main/Main';
+import {  BrowserRouter as Router } from 'react-router-dom';
+const App = () => {
   return (
-    
     <Provider store={store}>
       <Router>
-       <Main/>
-       </Router>
+        <Main />
+      </Router>
     </Provider>
   );
-}
+};
 
 export default App;

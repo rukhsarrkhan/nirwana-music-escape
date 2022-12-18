@@ -1,9 +1,15 @@
 import axios from 'axios';
-import { USER_LOGIN_SUCCESS, USER_LOGIN_FALIURE, USER_LOGIN, USER_REGISTER_SUCCESS, USER_REGISTER, USER_REGISTER_FALIURE } from "./userActionTypes";
+import { USER_LOGIN_SUCCESS, USER_LOGIN_FALIURE, USER_LOGIN, USER_REGISTER_SUCCESS, USER_REGISTER, USER_REGISTER_FALIURE, USER_LOGOUT } from "./userActionTypes";
 
 export const userLogin = () => {
     return {
         type: USER_LOGIN
+    };
+};
+
+export const userLogout = () => {
+    return {
+        type: USER_LOGOUT
     };
 };
 
@@ -45,29 +51,30 @@ export const userRegistrationAPICall = (obj) => {
     return async (dispatch) => {
         dispatch(userRegister());
         try {
-            console.log();
             let resp = await axios.post('http://localhost:3000/register', obj);
-            console.log(resp);
             dispatch(userRegisterSuccess(resp.data));
             localStorage.setItem("authToken", resp.data.token);
         } catch (error) {
-            console.log(error);
             dispatch(userRegisterFaliure(error));
         }
     };
 };
 
 export const loginUserAPICall = (obj) => {
-    console.log("obj",obj)
     return async (dispatch) => {
         dispatch(userLogin());
         try {
             let resp = await axios.post('http://localhost:3000/login', obj);
             dispatch(userLoginSuccess(resp.data));
         } catch (error) {
-            console.log(error);
             dispatch(userLoginFailure(error));
 
         }
+    };
+};
+
+export const logoutCall = (obj) => {
+    return async (dispatch) => {
+        dispatch(userLogout());
     };
 };
