@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="108227eb-9656-45ba-86be-4d03d711c58c" name="Changes" comment="">
+      <changelist_data name="Saniya98" email="saniyafarheen.98@gmail.com" date="1671151297000" />
+      <change beforePath="$PROJECT_DIR$/backend/Task/Seed" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Task/Seed" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/data/playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/playlist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/playlistRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/playlistRoute.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/seed.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/seed.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/tasks/seed.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/tasks/seed.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DependenciesAnalyzeManager">
+    <option name="forwardDirection" value="false" />
+    <option name="includeTests" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2IxEP75tRGDDLAR0NgEHSr5i91Q" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/bona/Documents/GitHub/nirwana-music-escape&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Node.js.app.js">
+    <configuration name="app.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/backend/app.js" working-dir="$PROJECT_DIR$/backend">
+      <method v="2" />
+    </configuration>
+    <configuration name="seed.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/backend/tasks/seed.js" working-dir="$PROJECT_DIR$/backend/tasks">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.seed.js" />
+        <item itemvalue="Node.js.app.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="108227eb-9656-45ba-86be-4d03d711c58c" name="Changes" comment="" />
+      <created>1671114806809</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1671114806809</updated>
+      <workItem from="1671114808234" duration="718000" />
+      <workItem from="1671221806507" duration="32000" />
+      <workItem from="1671221844849" duration="4284000" />
+      <workItem from="1671249401009" duration="35000" />
+      <workItem from="1671249628621" duration="13652000" />
+      <workItem from="1671307393993" duration="71000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/app.js</url>
+          <line>15</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/routes/playlistRoute.js</url>
+          <line>76</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/backend/tasks/seed.js</url>
+          <line>256</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

@@ -5,11 +5,42 @@ const data = require("../data");
 const { protect } = require("../middleware/authJwt");
 const playlistData = data.playlistsData;
 
-// router.route("/").get(async (req, res) => {
-//   if (req.session.user) return res.redirect("/protected");
-//   res.status(401).send("user not authenticated");
-// });
+  
+  
+  router.route("/").get(async (req, res) => {
+    if (req.session.user) return res.redirect("/protected");
+    res.status(401).send('User not authenticated');
+  });
+  
+  router
+    .route("/:userId")
+    .get(async (req, res) => {
 
+      try{
+        helpers.validateId(req.params.userId);
+      }catch(e){
+        return res.status(400).json({ error:e });
+      }
+      try {
+        let playlistGet = await playlistData.getAllPlaylist(req.params.userId);
+        res.json(playlistGet)
+      }catch(e){
+       return res.status(404).json({ error:e })
+      }
+    })
+    .post(async (req, res) => {
+        try {
+          helpers.validateId(req.params.userId);
+        } catch (e) {
+          return res.status(400).json("invalid id");
+        }
+        try{
+            //helper
+            // TO DO: ADD req.params.userId, req.body fiekld validation in another try cath
+          } catch (e) {
+            return res.status(400).json("invalid id");
+          }
+        })
 router
   .route("/:userId")
   .get(async (req, res) => {

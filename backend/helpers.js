@@ -288,6 +288,124 @@ const validateCreateUserObject = (
         throw "role should be of lower case"
       }
 };
+const validateCheckUser = (
+  username,
+  password,
+) => {
+  const RegExp = /^[A-Za-z0-9@.]*$/;
+  console.log("user",username)
+  if (!username) throw "please provide the username";
+  if (typeof username !== "string") throw "username must be of string type";
+  if (username.match(/\s/)) throw "username cannot have empty spaces";
+  username = username.trim();
+  if (username.trim().length === 0)
+    throw "username cannot be just empty strings";
+  if (username.length < 4) throw "username must be atleast 4 characters long";
+  if (!username.match(RegExp)) throw "username is not valid";
+  if (!password) throw "please type the password";
+  if (password.match(/\s/)) throw "password cannot have empty spaces";
+  password = password.trim();
+  if (password.trim().length === 0)
+    throw "password cannot be just empty strings";
+  if (password.length < 6) throw "password must be atleast 6 characters long";
+  if (!password.match(/[A-Z]/))
+    throw "password should have atleast one uppercase character";
+  if (!password.match(/[a-z]/))
+    throw "password should have lowercase characters";
+  if (!password.match(/[0-9]/))
+    throw "password should have atleast one number ";
+  if (!password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/))
+    throw "password should have atleast one special character";
+  // if(!firstName) throw "please enter first name"
+  // if(!firstName.match(/[A-Za-z]/)) throw "first name should be alphabets only"
+  //   if (typeof firstName !== "string") {
+  //       throw "firstName is not of proper type";
+  //     }
+  //     if (firstName.trim().length == 0 || firstName.length == 0) {
+  //       throw "firstName cannot be just empty spaces";
+  //     }
+  //     if(!lastName) throw "please enter last name"
+  //     if(!lastName.match(/[A-Za-z]/)) throw "lastname should be alphabets only"
+  //     if (typeof lastName !== "string") {
+  //       throw "lastName is not of proper type";
+  //     }
+  //     if (lastName.trim().length == 0 || lastName.length == 0) {
+  //       throw "lastName cannot be just empty spaces";
+  //     }
+  //     if (typeof userName !== "string") {
+  //       throw "userName is not of proper type";
+  //     }
+  //     if (userName.trim().length == 0 || userName.length == 0) {
+  //       throw "userName cannot be just empty spaces";
+  //     }
+  //     if(!phoneNumber) throw "please enter the contact number"
+  //   if(phoneNumber!==/^[0-9]*$/) throw "phonenUmber is not valid"
+      // if (typeof role !== "string") {
+      //   throw "role is not of proper type";
+      // }
+      // if (role.trim().length == 0 || role.length == 0) {
+      //   throw "role cannot be just empty spaces";
+      // }
+      // if(role!==user || role!==admin){
+      // throw "role must be user or admin"
+      // }
+      // if(!role.toLowerCase){
+      //   throw "role should be of lower case"
+      // }
+};
+
+const validatesongs=(
+  songName,
+  genre,
+  artist
+)=>{
+  if (!songName) throw "please provide songname";
+  if(!songName.match(/^[A-Za-z0-9$.]*$/)) throw "songname is not valid"
+  if (typeof songName !== "string") throw "songname must be of string type";
+  // if (songName.match(/^((?!\s).)*/)) throw "songname cannot have empty spaces";
+  songName = songName.trim();
+  if (songName.trim().length === 0)
+    throw "songname cannot be just empty strings";
+    // if (!songUrl) throw "please provide songURL";
+    // if(!song.match(/^.*\.mp3$/))throw "song must end with .mp3"
+    if (!genre) throw "please provide genre";
+    if (typeof genre !== "string") throw "genre must be of string type";
+    // if(!genre.match(/[A-Z]/)) throw "genre should be alphabets only"
+    // if(!genre.match(/[a-z]/)) throw "genre should be alphabets only"
+
+    // if (genre.match(/^((?!\s).)*/)) throw "genre cannot have empty spaces";
+    genre = genre.trim();
+    if (genre.trim().length === 0)
+      throw "genre cannot be just empty strings";
+    if (!artist) throw "please provide name of the artist";
+    // if(!artist.match(/[A-Z]/)) throw "artist should be alphabets only"
+    // if(!artist.match(/[a-z]/)) throw "artist should be alphabets only"
+
+    if (typeof artist !== "string") throw "artist must be of string type";
+    // if (artist.match(/\s/)) throw "artist cannot have empty spaces";
+    artist = artist.trim();
+    if (artist.trim().length === 0)
+      throw "artist cannot be just empty strings";
+
+}
+
+const validateId=(id)=>{
+  if (!id) throw "You must provide an id to search for";
+  if (typeof id !== "string") throw "Id must be a string";
+  if (id.trim().length === 0)
+    throw "Id cannot be an empty string or just spaces";
+  id = id.trim();
+  if (!ObjectId.isValid(id)) throw "invalid object ID";
+};
+const inputStringValidation = (input, inputString) => {
+  if (typeof input == "undefined" || input == null) {
+    throw "Input string - " + inputString + " is empty";
+  } else if (typeof input != "string") {
+    throw "Input string - " + inputString + " is not of proper type string";
+  } else if (input.trim().length <= 0) {
+    throw "Input string - " + inputString + " is empty";
+  }
+};
 
 module.exports = {
   isValidObject,
@@ -307,6 +425,11 @@ module.exports = {
   checkUserObject,
   checkPlistName,
   checkObjectId,
-  checkPlistObj
+  checkPlistObj,
+  validateUsernameNPassword,
+  validateCheckUser,
+  validatesongs,
+  validateId,
+  inputStringValidation
 };
 

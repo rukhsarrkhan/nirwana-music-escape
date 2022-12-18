@@ -106,14 +106,14 @@ const createPlaylist = async (userId, obj) => {
 const getAllPlaylist = async (userId) => {
 
     userId = userId.trim();
-    validation.checkObjectId(userId)
+    validation.validateId(userId)
 
     const playlists = await userCollection();
     const allPlaylist = await playlists.find(
         {_id : ObjectId(userId)}, 
         {projection:{playlist:1, _id:0}}).toArray();
 
-    if(allPlaylist[0].playlist.length === 0) throw " No playlist yet "
+    if(allPlaylist[0].playlist.length == 0) throw " No playlist yet "
     return allPlaylist[0].playlist;
 }
 
