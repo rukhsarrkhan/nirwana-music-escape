@@ -8,7 +8,11 @@ async function main() {
   const db = await dbConnection.dbConnection();
   await db.dropDatabase();
 
-  const newuserobj = {
+  let useridArray = []
+  let plistidArray = []
+  let songsidArray = []
+
+  const newuserobj = [{
     firstName: "sky",
     lastName: "Doe",
     userName: "skyone@gmail.com",
@@ -18,23 +22,63 @@ async function main() {
     phoneNumber: 4561238899,
     playlist: [],
     likes: []
-  };
-
-  const patrickObj = {
+  },
+  {
     firstName: "Patrick",
     lastName: "Hill",
     userName: "phill@stevens.edu",
     password: "Abc@12345",
     role: "admin",
     profileImage: "",
-    phoneNumber: 4561238899,
+    phoneNumber: 1234383899,
     playlist: [],
     likes: []
-  };
-  const seeduser = await users.createUser(newuserobj);
-  const patrickUser = await users.createUser(patrickObj);
+  },
+  {
+    firstName: "Mary",
+    lastName: "White",
+    userName: "mary",
+    password: "bfD4336@",
+    role: "paid",
+    profileImage:"",
+    phoneNumber:2531726849,
+    playlist:[],
+    likes:[]
+  }]
 
-  const id = seeduser._id.toString();
+  for(let i = 0; i<newuserobj.length; i++){
+    const seeduser = await users.createUser(newuserobj[i]);
+    const id = seeduser._id.toString();
+    useridArray.push(id)
+  }
+
+  const newplaylistobj =[{
+    playlistName: "newPlist",
+    description: "new playlist for first",
+    songs:[]
+  },
+    {
+      playlistName: "anoPlist",
+      description: "another playlist for second",
+      songs:[]
+    },
+    {
+      playlistName: "otherPlist",
+      description: "another playlist for third",
+      songs:[]
+    }
+  ]
+
+  for (let k = 0; k <useridArray.length; k++){
+
+    for (let i = 0; i<newplaylistobj.length;i++){
+        const plist = await playlist.createPlaylist(useridArray[k],newplaylistobj[i]);
+        const plistId = plist._id.toString();
+        plistidArray.push(plistId)
+    }
+  }
+
+
 
   const romanticsongs = [
     {
@@ -72,7 +116,9 @@ async function main() {
   ];
 
   for (let i = 0; i < romanticsongs.length; i++) {
-    await songs.seedSongs(romanticsongs[i]);
+    const rsong = await songs.seedSongs(romanticsongs[i]);
+    const rid = rsong._id.toString()
+    songsidArray.push(rid)
   }
 
   const hiphopsongs = [
@@ -101,8 +147,10 @@ async function main() {
       createdAt: "12/15/2022"
     }
   ];
-  for (let i = 0; i < hiphopsongs.length; i++) {
-    await songs.seedSongs(hiphopsongs[i]);
+  for(let i=0; i<hiphopsongs.length; i++){
+    const hsong = await songs.seedSongs(hiphopsongs[i])
+    const hid = hsong._id.toString()
+    songsidArray.push(hid)
   }
 
   const operasongs = [
@@ -131,9 +179,13 @@ async function main() {
       createdAt: "12/15/2022"
     }
   ];
-  for (let i = 0; i < operasongs.length; i++) {
-    await songs.seedSongs(operasongs[i]);
+  
+for(let i=0; i<operasongs.length; i++){
+    const osong = await songs.seedSongs(operasongs[i])
+    const oid = osong._id.toString()
+    songsidArray.push(oid)
   }
+
 
   const kpopsongs = [
     {
@@ -153,25 +205,23 @@ async function main() {
       createdAt: "12/15/2022"
     }
   ];
-  for (let i = 0; i < kpopsongs.length; i++) {
-    await songs.seedSongs(kpopsongs[i]);
+for(let i=0; i<kpopsongs.length; i++){
+    const ksong = await songs.seedSongs(kpopsongs[i])
+    const kid = ksong._id.toString()
+    songsidArray.push(kid)
   }
 
-  const newplaylistobj = {
-    playlistName: "newPlist",
-    description: "new playlist for skyone",
-    songs: ["639e9a5225371c73bfc5a1a4", "639e9afc25371c73bfc5a1a7"]
-  };
-  await playlist.createPlaylist(id, newplaylistobj);
-
-  const anotherplaylistobj = {
-    playlistName: "anoPlist",
-    description: "another playlist for skyone",
-    songs: ["639b748a04a2e5746d5afec7", "639e9b6a25371c73bfc5a1a9", "639e9a1025371c73bfc5a1a2"]
-  };
-
-  await playlist.createPlaylist(id, anotherplaylistobj);
-
+for (let i=0; i<plistidArray.length; i+=3){
+    for (let k=0; k<4; k++){
+      await playlist.addSongs(plistidArray[i], songsidArray[k])
+    }
+    for (let j=4; j<9; j++){
+      await playlist.addSongs(plistidArray[i+1], songsidArray[j])
+    }
+    for (let m = 9; m<12; m++){
+      await playlist.addSongs(plistidArray[i+2], songsidArray[m])
+    }
+}
 
   console.log('Done seeding database');
 

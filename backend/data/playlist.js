@@ -19,7 +19,7 @@ const createPlaylistObject = async (obj) => {
 const addSongs = async (playlistId, songId) => {
   validation.checkObjectId(playlistId);
   validation.checkObjectId(songId);
-  let song = await songsData.getSongsById(songId);
+  //let song = await songsData.getSongsById(songId);
   const users = await userCollection();
   const user = await users.findOne({
     "playlist._id": new ObjectId(playlistId)
@@ -32,7 +32,7 @@ const addSongs = async (playlistId, songId) => {
     },
     {
       $addToSet: {
-        "playlist.$.songs": song
+        "playlist.$.songs": songId
       }
     }
   );
@@ -112,7 +112,7 @@ const createPlaylist = async (userId, obj) => {
     );
     user = await users.findOne({ _id: new ObjectId(userId)})
     if (updateInfo.modifiedCount === 0) throw " Could not add playlist successfully "
-    return playlist;
+    return newPlaylist;
     };
 
 
