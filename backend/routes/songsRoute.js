@@ -68,7 +68,7 @@ router
     }
     try {
       // TO DO: ADD id validation in another try cath
-
+      helpers.checkObjectId(req.params.id)
       let response = await songsData.fetchSong(req.params.id);
       return res.status(200).json(response);
     } catch (error) {
@@ -85,7 +85,7 @@ router
     }
     try {
       // TO DO: ADD id fiekld validation in another try cath
-
+      helpers.checkObjectId(req.params.id)
       let response = await songsData.deleteSong(req.params.id);
       return res.status(200).json(response);
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import ResponsiveDrawer from "../../components/sidebar/sidebar";
 import Header from "../../components/Header/Header";
@@ -34,34 +34,48 @@ const Main = ({ userData }) => {
 
   return (
     <div className="main">
-      <div style={{ display: "flex" }}>
-        {isLoggedIn && !isAdmin && (<ResponsiveDrawer style={{ backgroundColor: "#040404" }} />)}
+      <div style={{ display: "flex", maxHeight:'100vh' }}>
+        {isLoggedIn && !isAdmin && (
+          <ResponsiveDrawer style={{ backgroundColor: "#040404" }} />
+        )}
         <div className="body-container">
-          {isLoggedIn && (<Header />)}
+          {isLoggedIn && <Header />}
           <Routes>
-            {isLoggedIn && <Route path="/dashboard" element={<Homepage />}></Route>}
+            {isLoggedIn && (
+              <Route path="/dashboard" element={<Homepage />}></Route>
+            )}
+            {isLoggedIn && (
+              <Route path="/playlists" element={<Playlist />}></Route>
+            )}
             <Route path="/" element={<ReroutePage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/register" element={<RegisterPage />}></Route>
-            {isLoggedIn && <Route path="/create-playlist" element={<CreatePlaylist />}></Route>}
-            {isLoggedIn && <Route path="/admin" element={<AdminPage />}></Route>}
-            {isLoggedIn && <Route path="/admin-portal" element={<AdminPortal />}></Route>}
-            <Route path="/playlists" element={<Playlist />}></Route>
+            {isLoggedIn && (
+              <Route
+                path="/create-playlist"
+                element={<CreatePlaylist />}
+              ></Route>
+            )}
+            {isLoggedIn && (
+              <Route path="/admin" element={<AdminPage />}></Route>
+            )}
+            {isLoggedIn && (
+              <Route path="/admin-portal" element={<AdminPortal />}></Route>
+            )}
+
             <Route path="*" element={<ReroutePage />}></Route>
           </Routes>
         </div>
       </div>
-      {isLoggedIn && !isAdmin && (<MusicPlayer />)}
+      {isLoggedIn && !isAdmin && <MusicPlayer />}
     </div>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    userData: state
+    userData: state,
   };
 };
 
-export default connect(
-  mapStateToProps
-)(Main);
+export default connect(mapStateToProps)(Main);

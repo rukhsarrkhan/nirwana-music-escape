@@ -17,15 +17,6 @@ const playlistData = data.playlistsData;
       } catch (error) {
         return res.status(401).send(error)
       }
-
-
-      // try{
-      //   // TO DO: ADD userId fiekld validation in another try cath
-
-      //   //helper
-      // }catch(e){
-      //   return res.status(400).json({ error:e });
-      // }
       try {
         let playlistGet = await playlistData.getAllPlaylist(req.user);
         return res.status(200).json(playlistGet)
@@ -104,49 +95,49 @@ router
     // }
   //  })
 
-router
-    .route('/playlist/:playlistId/songs/:songId')
-    .post(async (req, res) => { 
-      try {
-        let token = protect(req.headers)
-        req.user = token.id
-      } catch (error) {
-        return res.status(401).send(error)
-      }
-      try{
-                    // TO DO: Add req.params.playlistId, req.body validation in another try catch 
-          let response = await playlistData.addSongs(req.params.playlistId, req.params.songId);
-          return res.status(201).json(response)
-      } catch (e) {
-          res.status(400).json({error:e});
-      }
-      })
+// router
+//     .route('/playlist/:playlistId/songs/:songId')
+//     .post(async (req, res) => { 
+//       try {
+//         let token = protect(req.headers)
+//         req.user = token.id
+//       } catch (error) {
+//         return res.status(401).send(error)
+//       }
+//       try{
+//                     // TO DO: Add req.params.playlistId, req.body validation in another try catch 
+//           let response = await playlistData.addSongs(req.params.playlistId, req.params.songId);
+//           return res.status(201).json(response)
+//       } catch (e) {
+//           res.status(400).json({error:e});
+//       }
+//       })
 
-    .delete(async (req, res) => {
-      try {
-        let token = protect(req.headers)
-        req.user = token.id
-      } catch (error) {
-        return res.status(401).send(error)
-      }
-      try{
-                    // TO DO: Add req.params.playlistId, req.body validation in another try catch 
-        let response = await playlistData.deleteSongs(req.params.playlistId, req.params.songId);
-        return res.status(200).json(response)
-      }catch (e) {
-        res.status(400).json({error:e});
-    }
-  })
+//     .delete(async (req, res) => {
+//       try {
+//         let token = protect(req.headers)
+//         req.user = token.id
+//       } catch (error) {
+//         return res.status(401).send(error)
+//       }
+//       try{
+//                     // TO DO: Add req.params.playlistId, req.body validation in another try catch 
+//         let response = await playlistData.deleteSongs(req.params.playlistId, req.params.songId);
+//         return res.status(200).json(response)
+//       }catch (e) {
+//         res.status(400).json({error:e});
+//     }
+//   })
 
-  .delete(async (req, res) => {
-    try {
-      // TO DO: Add req.params.playlistId, req.body validation in another try catch 
-      let response = await playlistData.deleteSongs(req.params.playlistId, req.params.songId);
-      return res.status(200).json(response);
-    } catch (e) {
-      res.status(400).json({ error: e });
-    }
-  });
+//   .delete(async (req, res) => {
+//     try {
+//       // TO DO: Add req.params.playlistId, req.body validation in another try catch 
+//       let response = await playlistData.deleteSongs(req.params.playlistId, req.params.songId);
+//       return res.status(200).json(response);
+//     } catch (e) {
+//       res.status(400).json({ error: e });
+//     }
+//   });
 
 
 module.exports = router;

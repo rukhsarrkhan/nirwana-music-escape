@@ -8,7 +8,7 @@ const Homepage = ({ fetchSongsAPICall, songs }) => {
     fetchSongsAPICall();
   }, []);
   return (
-    <div style={{ display: 'grid', gridGap: '20px' }}>
+    <div style={{ display: 'grid', gridGap: '20px', padding:'0 25px' }}>
       {
         Object.keys(songs).map(song => <SongCategory key={song}
           title={song}
